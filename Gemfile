@@ -76,3 +76,4 @@ end
 
 gem "ruby-openai"
 gem "cloudinary"
+gem "faker"
