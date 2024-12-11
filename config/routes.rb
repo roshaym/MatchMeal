@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'cameras/index'
   devise_for :users
   root to: "pages#home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -9,4 +10,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  post 'recipes/search', to: 'recipes#search', as: :search_recipes
+
+  resources :recipes do
+    resources :favorites, only: [:create, :destroy, :index]
+  end
+  resources :favorites, only: [:index]
 end

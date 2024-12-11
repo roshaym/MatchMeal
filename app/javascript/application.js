@@ -3,6 +3,3 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "@popperjs/core"
 import "bootstrap"
-
-import RecipesController from './controllers/recipes_controller.js'
-Stimulus.register('recipes', RecipesController)

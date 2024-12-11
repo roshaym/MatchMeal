@@ -1,0 +1,26 @@
+<!-- app/views/favorites/index.html.erb -->
+<h1>My Favorite Recipes</h1>
+
+<% if @favorites.any? %>
+  <ul>
+    <% @favorites.each do |favorite| %>
+      <li>
+        <h2><%= link_to favorite.recipe.name, recipe_path(favorite.recipe) %></h2>
+        <div>
+          <%= image_tag favorite.recipe.image, alt: favorite.recipe.name if favorite.recipe.image.present? %>
+        </div>
+        <p><%= favorite.recipe.description %></p>
+        <p><strong>Cooking Time:</strong> <%= favorite.recipe.cooking_time %> minutes</p>
+        <p><strong>Rating:</strong> <%= favorite.recipe.rating %> people</p>
+        <div>
+          <%= link_to 'View Full Recipe', recipe_path(favorite.recipe), class: 'btn btn-primary' %>
+
+
+          <%= button_to 'Remove from Favorites', recipe_favorite_path(favorite.recipe, favorite), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You have no favorite recipes yet.</p>
+<% end %>
