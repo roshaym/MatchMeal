@@ -1,10 +1,14 @@
-// Define variables for your color scheme
+body {
+  background-color: #000000; /* light gray-blue color */
+}
 
-// For example:
-$red: #FD1015;
-$blue: #0D6EFD;
-$yellow: #FFC65A;
-$orange: #E67E22;
-$green: #1EDD88;
-$gray: #0E0000;
-$light-gray: #F4F4F4;
+
+// comment: here I tried how the colors would look like on h1 and p
+
+h1 {
+  color: $white; /* White color for h1 */
+}
+
+p {
+  color: $light-gray; /* Light gray color for p */
+}
