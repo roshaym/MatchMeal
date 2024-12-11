@@ -1,2 +1,24 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+
+
+
+<p> This is a recipe:
+this is my very own healthy and delicious meal. You will need the following ingredients:
+</p>
+
+<p>Button color:</p>
+
+<%= link_to "Sign in", new_user_session_path, class: "btn btn-primary" %>
+<%= link_to "Sign out", new_user_registration_path, class: "btn btn-danger" %>
+<%= link_to "Sign in", new_user_session_path, class: "btn btn-success" %>
+<%= link_to "Sign in", new_user_session_path, class: "btn btn-warning" %>
+<%= link_to "Sign in", new_user_session_path, class: "btn btn-info" %>
+
+<%= content_for(:navbar_class, "navbar-home") %>
+
+<div class="banner">
+  <div class="banner-content text-center">
+    <h1>Hello, this is Match Meal</h1>
+    <p>Le't start cooking! </p>
+    <%= link_to "Start now", new_user_session_path, class: "btn btn-primary"  %>
+  </div>
+</div>

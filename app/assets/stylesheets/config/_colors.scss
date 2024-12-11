@@ -1,10 +1,22 @@
-// Define variables for your color scheme
 
-// For example:
-$red: #FD1015;
-$blue: #0D6EFD;
-$yellow: #FFC65A;
-$orange: #E67E22;
-$green: #1EDD88;
-$gray: #0E0000;
-$light-gray: #F4F4F4;
+body {
+  background-color: $background-color;  // Black background
+  color: $gray;  // Default text color
+}
+
+body h1 {
+  color: $white;  // Targeting h1 inside body
+}
+
+p {
+  color: $light-gray;   /* Use your custom red for paragraphs */
+}
+
+a {
+  color: $my-orange; /* Set link color */
+  text-decoration: none;
+
+  &:hover {
+    color: $my-yellow; /* Hover effect for links */
+  }
+}
