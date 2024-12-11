@@ -18,3 +18,12 @@
 
   <form class="row g-2 justify-content-center py-5"
         data-action="submit->recipes#search">
+<%= content_for(:navbar_class, "navbar-home") %>
+
+<div class="banner">
+  <div class="banner-content text-center">
+    <h1>Hello, this is Match Meal,</h1>
+    <p>Let's start cooking!</p>
+    <%= link_to "Start now", new_user_session_path, class: "btn btn-lg btn-primary"  %>
+  </div>
+</div>
