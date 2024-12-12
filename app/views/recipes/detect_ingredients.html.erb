@@ -1,0 +1,25 @@
+<div class="container">
+  <% if flash[:error] %>
+    <div class="alert alert-danger">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+
+  <h1>Ingredient Detection</h1>
+
+  <%= form_with(url: analyze_image_recipes_path, multipart: true, local: true) do |form| %>
+    <div class="form-group">
+      <%= form.label :image, "Upload Image" %>
+      <%= form.file_field :image, accept: 'image/*', class: 'form-control' %>
+    </div>
+
+    <%= form.submit "Detect Ingredients", class: 'btn btn-primary' %>
+  <% end %>
+
+  <% if @ingredients.present? %>
+    <div class="ingredients-result mt-4">
+      <h2>Detected Ingredients:</h2>
+      <pre><%= @ingredients %></pre>
+    </div>
+  <% end %>
+</div>
