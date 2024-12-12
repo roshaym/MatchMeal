@@ -10,3 +10,28 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+/* Full-page banner */
+.banner {
+  height: 100vh; /* Full viewport height */
+  position: relative;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+/* Banner image */
+.banner-image {
+  object-fit: cover;
+  height: 100%;
+}
+
+/* Placeholder for missing image */
+.banner-placeholder {
+  height: 100vh; /* Full viewport height */
+  font-size: 1.5rem;
+}
+
+/* Transparent container at the bottom of the banner */
+.banner-overlay-bottom {
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+  padding: 20px 0;
+}

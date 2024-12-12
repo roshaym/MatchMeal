@@ -1,32 +1,7 @@
-<div class="recipe-details">
-
-  <h1><%= @recipe.name %></h1>
-
-
-  <% if @recipe.image.present? %>
-    <img src="<%= @recipe.image %>" alt="<%= @recipe.name %> image" class="recipe-image">
-  <% else %>
-    <p><em>No image available for this recipe.</em></p>
-  <% end %>
-
-  <p><strong>Description:</strong> <%= @recipe.description %></p>
-
-  <p><strong>Ingredients:</strong></p>
-  <ul>
-    <% @recipe.ingredients.split(',').each do |ingredient| %>
-      <li><%= ingredient.strip %></li>
-    <% end %>
-  </ul>
-
-  <p><strong>Cooking Time:</strong> <%= @recipe.cooking_time %> minutes</p>
-  <p><strong>Rating:</strong> <%= @recipe.rating || "Not rated yet" %></p>
-
-  <% favorite = current_user.favorites.find_by(recipe: @recipe) %>
-  <div class="favorite-button">
-    <% if favorite %>
-      <%= button_to 'Remove from Favorites', recipe_favorite_path(@recipe, favorite), method: :delete, class: 'btn btn-danger' %>
-    <% else %>
-      <%= button_to 'Add to Favorites', recipe_favorites_path(@recipe), method: :post, class: 'btn btn-primary' %>
-    <% end %>
+<div class="container-fluid p-0">
+  <div class="row no-gutters">
+    
+    <div class="col-md-6">
+      <%= render 'recipe_header', recipe: @recipe %>
+    </div>
   </div>
-</div>

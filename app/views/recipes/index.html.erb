@@ -1,7 +1,35 @@
-<!-- app/views/recipes/index.html.erb -->
+
 <h1>All Recipes</h1>
 <ul>
   <% @recipes.each do |recipe| %>
     <li><%= link_to recipe.name, recipe_path(recipe) %></li>
   <% end %>
 </ul>
+<div class="container my-5">
+  <h2 class="text-center mb-4">Here are your recipes</h2>
+
+  <div class="row">
+    <% @recipes.each do |recipe| %>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <% if recipe.image.present? %>
+            <img src="<%= recipe.image %>" alt="<%= recipe.name %>" class="card-img-top" />
+          <% else %>
+            <img src="https://via.placeholder.com/400" alt="Recipe image" class="card-img-top" />
+          <% end %>
+
+          <div class="card-body text-center">
+            <h5 class="card-title"><%= recipe.name %></h5>
+
+            <p>
+              <%= '★' * recipe.rating %>
+              <%= '☆' * (5 - recipe.rating) %>
+            </p>
+
+            <a href="<%= recipe_path(recipe) %>" class="btn btn-primary">View Recipe</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
