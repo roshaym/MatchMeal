@@ -1,3 +1,6 @@
+require 'base64'
+require 'openai'
+
 class RecipesController < ApplicationController
   require "json"
   require "open-uri"
@@ -27,26 +30,64 @@ class RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
   end
 
+  def detect_ingredients
+    # Render the form for uploading an image
+  end
 
+  def process_image
+    # Check if an image was uploaded
+    unless params[:image].present?
+      flash[:error] = "Please upload an image"
+      return redirect_to detect_ingredients_recipes_path
+    end
 
-  # def search
-  #   ingredients = params[:ingredients]
+    # Read the uploaded file
+    uploaded_file = params[:image]
 
-  #   api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
-  #   url = URI("https://api.spoonacular.com/recipes/findByIngredients?ingredients=#{ingredients}&number=10&ranking=1&apiKey=#{api_key}")
+    # Encode the image to base64
+    base64_image = Base64.encode64(uploaded_file.read)
 
-  #   response = Net::HTTP.get_response(url)
-  #   if response.is_a?(Net::HTTPSuccess)
-  #     @recipes = JSON.parse(response.body)
-  #   else
-  #     @recipes = []
-  #     flash[:alert] = "Failed to fetch recipes. Please try again later."
-  #   end
+    # Initialize OpenAI client
+    client = OpenAI::Client.new(
+      access_token: ENV['OPENAI_API_KEY']
+    )
 
-  #   render :index
-  # end
+    # Send request to OpenAI
+    begin
+      response = client.chat(
+        parameters: {
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: "Identify all the ingredients in this image. List them clearly and concisely."
+                },
+                {
+                  type: "image_url",
+                  image_url: {
+                    url: "data:image/jpeg;base64,#{base64_image}"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      )
 
-  def recipe_params
-    params.require(:recipe).permit(:ingredients, :name)
+      # Extract the content from the response
+      ingredients = response.dig("choices", 0, "message", "content")
+
+      # Store ingredients in the session to pass to the next page
+      session[:detected_ingredients] = ingredients
+
+      # Redirect to the detect_ingredients page with the results
+      redirect_to detect_ingredients_recipes_path, notice: "Ingredients detected successfully!"
+    rescue StandardError => e
+      flash[:error] = "Error processing image: #{e.message}"
+      redirect_to detect_ingredients_recipes_path
+    end
   end
 end
