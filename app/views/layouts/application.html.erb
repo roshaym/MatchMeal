@@ -13,8 +13,11 @@
 
   </head>
 
-  <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
+  <body>
+    <% unless (controller_name == "sessions" && (action_name == "new" || action_name == "create")) || (controller_name == "passwords" && action_name == "new") || (controller_name == "registrations" && (action_name == "new" || action_name == "create")) %>
+      <%= render "shared/navbar" %>
+    <% end %>
+    <%= render "shared/flashes" %>
 
     <%= yield %>
   </body>
