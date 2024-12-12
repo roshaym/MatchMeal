@@ -1,23 +1,3 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
-
-<%# For testing: search by ingredients %>
-
-<div class="container text-center mt-5" data-controller="recipes">
-  <form class="row g-2 justify-content-center py-5"
-        data-action="submit->recipes#search">
-
-  <input type="text"
-        class="form-control"
-        placeholder="Find recipe by ingredient"
-        data-recipes-target="input">
-
-  <ul id="results"
-      class="row list-unstyled"
-      data-recipes-target="results"></ul>
-
-  <form class="row g-2 justify-content-center py-5"
-        data-action="submit->recipes#search">
 <%= content_for(:navbar_class, "navbar-home") %>
 
 <div class="banner">

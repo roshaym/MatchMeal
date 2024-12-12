@@ -1,0 +1,19 @@
+<h1>Search Recipes</h1>
+<
+<%# For testing: search by ingredients %>
+
+<div class="container text-center mt-5" data-controller="recipes">
+  <form class="row g-2 justify-content-center py-5"
+        data-action="submit->recipes#search">
+
+  <input type="text"
+        class="form-control"
+        placeholder="Find recipe by ingredient"
+        data-recipes-target="input">
+
+  <ul id="results"
+      class="row list-unstyled"
+      data-recipes-target="results"></ul>
+
+  <form class="row g-2 justify-content-center py-5"
+        data-action="submit->recipes#search">

@@ -31,3 +31,22 @@
 <% if flash[:alert] %>
   <p class="alert"><%= flash[:alert] %></p>
 <% end %>
+
+<h2>Spoonacular</h2>
+
+<% if @posts.present? %>
+  <ul>
+    <% @posts.each do |post| %>
+      <li>
+        <h2><%= post["title"] %></h2>
+        <p><%= post["body"] %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No posts available.</p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p class="alert"><%= flash[:alert] %></p>
+<% end %>
