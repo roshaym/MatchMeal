@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   post 'recipes/search', to: 'recipes#search', as: :search_recipes
+  get 'recipes/generate_recipes', to: 'recipes#generate_recipes', as: :generate_recipes
 
   resources :recipes do
     resources :favorites, only: [:create, :destroy, :index]

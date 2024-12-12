@@ -28,9 +28,11 @@
     <div class="detected-ingredients">
       <h2>Detected Ingredients:</h2>
       <pre><%= session[:detected_ingredients] %></pre>
-      
-      <% # Optional: Clear the session after displaying %>
-      <% session.delete(:detected_ingredients) %>
     </div>
   <% end %>
+
+  </div>
+
 </div>
+
+  <%= link_to "Generate recipes", generate_recipes_path, class: "btn btn-lg btn-primary"  %>

@@ -11,19 +11,6 @@ class RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
-    api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
-    ingredients = params[:ingredients]
-    url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=#{ingredients}&number=10&ranking=1&apiKey=#{api_key}"
-
-    begin
-      # Open the URL and parse the JSON response
-      response = URI.open(url).read
-      @posts = JSON.parse(response)
-    rescue OpenURI::HTTPError => e
-      # Handle errors (e.g., API down, invalid URL)
-      @posts = []
-      flash[:alert] = "Failed to fetch posts: #{e.message}"
-    end
   end
 
   def show
@@ -63,7 +50,7 @@ class RecipesController < ApplicationController
               content: [
                 {
                   type: "text",
-                  text: "Identify all the ingredients in this image. List them clearly and concisely."
+                  text: "Identify all the ingredients in this image and provide just the ingredients as comma separated values."
                 },
                 {
                   type: "image_url",
@@ -78,10 +65,10 @@ class RecipesController < ApplicationController
       )
 
       # Extract the content from the response
-      ingredients = response.dig("choices", 0, "message", "content")
+      @ingredients = response.dig("choices", 0, "message", "content")
 
       # Store ingredients in the session to pass to the next page
-      session[:detected_ingredients] = ingredients
+      session[:detected_ingredients] = @ingredients
 
       # Redirect to the detect_ingredients page with the results
       redirect_to detect_ingredients_recipes_path, notice: "Ingredients detected successfully!"
@@ -90,4 +77,28 @@ class RecipesController < ApplicationController
       redirect_to detect_ingredients_recipes_path
     end
   end
+
+  def generate_recipes
+    api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
+
+    @ingredients = session[:detected_ingredients]
+    if @ingredients.nil?
+      flash[:error] = "No ingredients detected yet."
+      redirect_to detect_ingredients_recipes_path
+    end
+
+    url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=#{@ingredients}&number=10&ranking=1&apiKey=#{api_key}"
+
+    begin
+      # Open the URL and parse the JSON response
+      @posts = []
+      response = URI.parse(url).read
+      @posts = JSON.parse(response)
+    rescue OpenURI::HTTPError => e
+      # Handle errors (e.g., API down, invalid URL)
+      @posts = []
+      flash[:alert] = "Failed to fetch posts: #{e.message}"
+    end
+  end
+
 end
