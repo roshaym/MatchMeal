@@ -1,3 +1,6 @@
+require 'base64'
+require 'openai'
+
 class RecipesController < ApplicationController
   def index
     @recipes = Recipe.all
@@ -11,21 +14,26 @@ class RecipesController < ApplicationController
     # Render the form for uploading an image
   end
 
-  def analyze_image
+  def process_image
+    # Check if an image was uploaded
     unless params[:image].present?
-      flash.now[:error] = "Please upload an image"
-      render :detect_ingredients and return
+      flash[:error] = "Please upload an image"
+      return redirect_to detect_ingredients_recipes_path
     end
-  
+
+    # Read the uploaded file
+    uploaded_file = params[:image]
+    
+    # Encode the image to base64
+    base64_image = Base64.encode64(uploaded_file.read)
+
+    # Initialize OpenAI client
+    client = OpenAI::Client.new(
+      access_token: ENV['OPENAI_API_KEY']
+    )
+
+    # Send request to OpenAI
     begin
-      # Read the uploaded file and encode to base64
-      image_file = params[:image]
-      base64_image = Base64.encode64(image_file.read)
-  
-      # Initialize OpenAI client
-      client = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
-  
-      # Send request to OpenAI
       response = client.chat(
         parameters: {
           model: "gpt-4o-mini",
@@ -35,7 +43,7 @@ class RecipesController < ApplicationController
               content: [
                 {
                   type: "text",
-                  text: "Identify all the ingredients in this image. List them clearly."
+                  text: "Identify all the ingredients in this image. List them clearly and concisely."
                 },
                 {
                   type: "image_url",
@@ -45,19 +53,21 @@ class RecipesController < ApplicationController
                 }
               ]
             }
-          ],
-          max_tokens: 300
+          ]
         }
       )
-  
+
       # Extract the content from the response
-      @ingredients = response.dig("choices", 0, "message", "content")
-  
-      # Render the same view with updated @ingredients
-      render :detect_ingredients
+      ingredients = response.dig("choices", 0, "message", "content")
+
+      # Store ingredients in the session to pass to the next page
+      session[:detected_ingredients] = ingredients
+
+      # Redirect to the detect_ingredients page with the results
+      redirect_to detect_ingredients_recipes_path, notice: "Ingredients detected successfully!"
     rescue StandardError => e
-      flash.now[:error] = "Error analyzing image: #{e.message}"
-      render :detect_ingredients
+      flash[:error] = "Error processing image: #{e.message}"
+      redirect_to detect_ingredients_recipes_path
     end
   end
 end
