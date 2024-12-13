@@ -27,14 +27,9 @@
   <% if session[:detected_ingredients].present? %>
     <div class="detected-ingredients">
       <h2>Detected Ingredients:</h2>
-       <pre style="white-space: pre-wrap; word-wrap: break-word;"><%= session[:detected_ingredients] %></pre>
+      <pre style="white-space: pre-wrap; word-wrap: break-word;"><%= session[:detected_ingredients] %></pre>
     </div>
   <% end %>
 
-  </div>
-
-</div>
-
-<div >
   <%= link_to "Generate recipes", generate_recipes_path, class: "btn btn-lg btn-primary btn-lg rounded-pill shadow-sm"  %>
 </div>

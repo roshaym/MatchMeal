@@ -5,10 +5,6 @@ class RecipesController < ApplicationController
   require "json"
   require "open-uri"
 
-  def method_name
-
-  end
-
   def index
     @recipes = Recipe.all
   end
@@ -19,6 +15,7 @@ class RecipesController < ApplicationController
 
   def detect_ingredients
     # Render the form for uploading an image
+    # session.delete(:detected_ingredients)
   end
 
   def process_image
@@ -50,7 +47,7 @@ class RecipesController < ApplicationController
               content: [
                 {
                   type: "text",
-                  text: "Identify all the ingredients in this image and provide just the ingredients as comma separated values."
+                  text: "Identify all the ingredients in this image and provide just the ingredients (do not use numbers or symbols) using comma separated values."
                 },
                 {
                   type: "image_url",
@@ -99,6 +96,12 @@ class RecipesController < ApplicationController
       @posts = []
       flash[:alert] = "Failed to fetch posts: #{e.message}"
     end
+  end
+
+  private
+
+  def recipe_params
+    params.permit(:image)
   end
 
 end
