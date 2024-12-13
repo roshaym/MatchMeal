@@ -15,5 +15,5 @@ Rails.application.routes.draw do
   end
   resources :favorites, only: [:index]
 
-  resources :users, only: [:new, :create, :edit, :update, :show]
+  resources :users, only: [:show, :edit, :update]
 end

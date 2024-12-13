@@ -1,44 +1,62 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :authenticate_user!  # Ensure user is logged in
 
-  def new
-    @user = User.new
-  end
-
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      # Correct redirection to the user's profile page
-      redirect_to @user, notice: 'Profile created successfully!'
-    else
-      # If validation fails, re-render the new page
-      render :new, status: :unprocessable_entity
-    end
+  def show
+    @user = User.find_by(id: params[:id])  # Find user by ID
   end
 
   def edit
+    @user = current_user  # Set @user to the logged-in user
   end
+
 
   def update
+    @user = current_user
+
+    # Flag to check if password was updated
+    password_changed = user_params[:password].present?
+
     if @user.update(user_params)
-      redirect_to @user, notice: 'Profile updated successfully!'
+      if password_changed
+        # If password is updated, sign out the user and send them to login
+        sign_out(@user)
+        flash[:notice] = "Password updated successfully. Please log in again."
+
+        respond_to do |format|
+          format.turbo_stream do
+            # Turbo handles the redirect by replacing "error_message" with the flash message
+            render turbo_stream: turbo_stream.replace("error_message", partial: "shared/flash_message")
+          end
+          format.html { redirect_to new_user_session_path, notice: "Password updated successfully. Please log in again." }
+          format.json { render json: { notice: "Password updated successfully. Please log in again." } }
+        end
+      else
+        # If no password update, simply redirect to profile page
+        respond_to do |format|
+          format.turbo_stream do
+            # Turbo handles the redirect by replacing "error_message" with the flash message
+            render turbo_stream: turbo_stream.replace("error_message", partial: "shared/flash_message")
+          end
+          format.html { redirect_to user_path(@user), notice: "Profile updated successfully!" }
+          format.json { render json: { notice: "Profile updated successfully!" } }
+        end
+      end
     else
-      render :edit, status: :unprocessable_entity
+      # Handle errors in case update fails
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("error_message", partial: "shared/error_messages", locals: { errors: @user.errors.full_messages })
+        end
+        format.html { render :edit }
+        format.json { render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity }
+      end
     end
   end
 
-  def show
-    @user = User.find(params[:id])
-  end
+
+
 
   private
-
-  def set_user
-    @user = User.find_by(id: params[:id])
-    unless @user
-      redirect_to users_path, alert: "User not found"
-    end
-  end
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :profile_picture, :password, :password_confirmation)

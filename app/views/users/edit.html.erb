@@ -1,43 +1,112 @@
-<%= form_with(model: @user, local: true) do |form| %>
-  <%= form.label :profile_picture %>
-  <%= form.file_field :profile_picture %>
-  <%= form.submit %>
-<% end %>
+<% if @user.present? %>
+  <%= turbo_stream_from "profile_#{@user.id}" %>
 
+  <div class="container" style="background-color: #000000;">
+    <h1 class="text-white">Edit Your Profile</h1>
 
-<%= form_with model: @user, url: user_path(@user), method: :patch, local: true, data: { controller: 'profile-form' } do |form| %>
-  <div class="form-group">
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name, class: "form-control", value: @user.first_name %>
-  </div>
+    <!-- Display success message if available -->
+    <% if flash[:notice] %>
+      <div class="alert alert-success">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
 
-  <div class="form-group">
-    <%= form.label :last_name %>
-    <%= form.text_field :last_name, class: "form-control", value: @user.last_name %>
-  </div>
+    <!-- "My Profile" Button (Ghost with $my-blue) -->
+    <%= link_to 'My Profile', user_path(@user), class: 'btn btn-outline-primary rounded-pill text-white' %>
 
-  <div class="form-group">
-    <%= form.label :email %>
-    <%= form.email_field :email, class: "form-control", value: @user.email %>
-  </div>
+    <!-- Profile Card for Edit Form -->
+    <div class="card mt-4">
+      <div class="card-body">
+        <!-- Profile Picture and Username Section -->
+        <div class="d-flex flex-column align-items-center mb-4">
 
-  <div class="form-group">
-    <%= form.label :profile_picture %>
-    <%= form.file_field :profile_picture, class: "form-control" %>
+          <!-- Profile Picture Label -->
+          <p class="text-primary mb-3 text-left w-100">Profile Picture:</p>
+
+          <!-- Check if user has a profile picture -->
+          <div class="profile-pic-container mb-3">
+            <% if @user.profile_picture.attached? %>
+              <%= image_tag @user.profile_picture.url, alt: "Profile Picture", class: "rounded-circle profile-pic", width: "100", height: "100" %>
+            <% else %>
+              <!-- Use placeholder URL if no profile picture is attached -->
+              <%= image_tag "https://via.placeholder.com/100/0000FF/808080?text=No+Image", alt: "Default Avatar", class: "rounded-circle profile-pic", width: "100" %>
+            <% end %>
+          </div>
+
+          <!-- Username below the Avatar -->
+          <h5 class="card-title text-white mb-3">
+            <%= @user.first_name %> <%= @user.last_name %>
+          </h5>
+        </div>
+
+        <!-- Form Starts Here -->
+        <%= form_with model: @user, url: user_path(@user), method: :patch, local: false do |form| %>
+
+          <!-- First Name -->
+          <div class="form-group">
+            <%= form.label :first_name, class: 'text-primary' %>
+            <%= form.text_field :first_name, class: 'form-control' %>
+          </div>
+
+          <!-- Last Name -->
+          <div class="form-group">
+            <%= form.label :last_name, class: 'text-primary' %>
+            <%= form.text_field :last_name, class: 'form-control' %>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <%= form.label :email, class: 'text-primary' %>
+            <%= form.email_field :email, class: 'form-control' %>
+          </div>
+
+         <!-- Profile Picture -->
+<div class="form-group">
+  <%= form.label :profile_picture, class: 'text-primary' %>
+
+  <!-- Profile Picture Preview -->
+  <div class="mt-3"> <!-- Added margin-top here -->
     <% if @user.profile_picture.attached? %>
-      <img src="<%= @user.profile_picture.url %>" alt="Profile Picture" class="img-thumbnail mt-2" width="150">
+      <%= image_tag @user.profile_picture.url, class: 'img-fluid img-thumbnail rounded-circle', id: 'profile-picture-preview', style: 'width: 200px; height: 200px; object-fit: cover;' %>
+    <% else %>
+      <%= image_tag "https://via.placeholder.com/100/0000FF/808080?text=No+Image", class: 'img-fluid img-thumbnail rounded-circle', id: 'profile-picture-preview', style: 'width: 100px; height: 100px; object-fit: cover;' %>
     <% end %>
   </div>
+</div>
 
-  <div class="form-group">
-    <%= form.label :password, 'New Password' %>
-    <%= form.password_field :password, class: "form-control" %>
+<!-- Custom Styled File Input Button with Margin Top -->
+<div class="custom-file mt-4 mb-4"> <!-- Added mt-4 for margin top -->
+  <%= form.file_field :profile_picture, class: 'custom-file-input d-none', id: 'profile_picture_input' %>
+  <label for="profile_picture_input" class="btn btn-outline-primary rounded-pill text-white">Upload New Picture</label>
+</div>
+
+<!-- New Password with Margin Top -->
+<div class="form-group mt-4"> <!-- Added mt-4 for margin top -->
+  <%= form.label :password, 'New Password', class: 'text-primary' %>
+  <%= form.password_field :password, class: 'form-control' %>
+</div>
+
+                <!-- Confirm New Password -->
+          <div class="form-group">
+            <%= form.label :password_confirmation, 'Confirm New Password', class: 'text-primary' %>
+            <%= form.password_field :password_confirmation, class: 'form-control' %>
+          </div>
+
+          <!-- Submit Button with more spacing -->
+          <div class="form-group mt-4">  <!-- mt-4 adds margin-top -->
+            <%= form.submit 'Update Profile', class: 'btn btn-primary rounded-pill text-white' %>
+          </div>
+
+
+        <% end %>
+      </div>
+    </div>
   </div>
-
-  <div class="form-group">
-    <%= form.label :password_confirmation, 'Confirm New Password' %>
-    <%= form.password_field :password_confirmation, class: "form-control" %>
+<% else %>
+  <!-- Message when user is not found or logged in -->
+  <div class="alert alert-danger">
+    User not found or you are not logged in. Please log in again.
   </div>
-
-  <%= form.submit 'Update Profile', class: 'btn btn-primary' %>
 <% end %>
+
+<div id="error_message"></div>

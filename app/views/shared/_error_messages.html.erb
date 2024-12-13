@@ -1,0 +1,14 @@
+<% if errors.any? %>
+  <div id="error_explanation" data-turbo-cache="false">
+    <h2>
+      <%= I18n.t("errors.messages.not_saved",
+                 count: errors.count,
+                 resource: "Profile") %>
+    </h2>
+    <ul>
+      <% errors.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

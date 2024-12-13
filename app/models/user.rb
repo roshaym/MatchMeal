@@ -7,6 +7,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_one_attached :profile_picture
+  validates :password, confirmation: true, length: { minimum: 6 }, allow_nil: true
+
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true
 end
