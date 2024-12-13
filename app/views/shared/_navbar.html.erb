@@ -6,16 +6,16 @@
           <i class="fa-solid fa-heart"></i>
         <% end %>
       </div>
-      
+
       <div class="mobile-nav-item">
         <%= link_to '/', class: "mobile-nav-link" do %>
           <i class="fa-solid fa-kitchen-set"></i>
         <% end %>
       </div>
-      
+
       <div class="mobile-nav-item">
         <% if user_signed_in? %>
-          <%= link_to "#", class: "mobile-nav-link" do %>
+          <%= link_to user_path(current_user), class: "mobile-nav-link" do %>
             <i class="fa-solid fa-user"></i>
           <% end %>
         <% else %>

@@ -1,0 +1,69 @@
+body {
+  background-color: #000000; /* light gray-blue color */
+}
+
+
+// comment: here I tried how the colors would look like on h1 and p
+
+h1 {
+  color: $white; /* White color for h1 */
+}
+
+p {
+  color: $light-gray; /* Light gray color for p */
+}
+
+
+.btn.btn-pill {
+  border-radius: 50px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.btn.btn-yellow {
+  background-color: $my-yellow !important; // Use the custom yellow color
+  border-color: $my-yellow !important;
+
+  // Text color
+  color: #000 !important; // Make text black for contrast
+
+  &:hover,
+  &:focus {
+    background-color: $my-yellow !important;
+    border-color: $my-yellow !important;
+  }
+
+  &:active {
+    background-color: darken($my-yellow, 10%) !important;
+    border-color: darken($my-yellow, 10%) !important;
+  }
+}
+
+
+/* Profile Picture Styles */
+.profile-pic {
+  object-fit: cover;
+  border: 2px solid #fff; /* Add a white border around the avatar */
+}
+
+/* Button Styles */
+.btn-outline-primary {
+  border-width: 2px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: $my-blue;  /* Change to your desired hover color */
+  color: #fff;
+}
+
+/* Primary Button (Yellow) */
+.btn-primary {
+  background-color: $my-yellow !important; /* Use yellow as primary button background */
+  border-color: $my-yellow !important; /* Border matching the yellow background */
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: darken($my-yellow, 10%) !important; /* Darken on hover/focus */
+  border-color: darken($my-yellow, 10%) !important;
+}
