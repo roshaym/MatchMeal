@@ -14,7 +14,7 @@
 
 /* Full-page banner */
 .banner {
-  height: 100vh; /* Full viewport height */
+  height: 40vh; /* Full viewport height */
   position: relative;
   overflow: hidden; /* Ensure content doesn't overflow */
 }
@@ -23,6 +23,7 @@
 .banner-image {
   object-fit: cover;
   height: 100%;
+  width: 100%
 }
 
 /* Placeholder for missing image */
@@ -31,11 +32,26 @@
   font-size: 1.5rem;
 }
 
+.card{
+  height: 60vh; /* Full viewport height */
+  position: relative;
+}
+
+.card{
+  height: 60vh; /* Full viewport height */
+  position: relative;
+}
+
+.card-description {
+  object-fit: cover;
+  height: 100%;
+  width: 100%
+}
+
+
 /* Transparent container at the bottom of the banner */
-.banner-overlay-bottom {
-  background: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
-  padding: 20px 0;
-}
+
+
 
 body {
     background-color: #f4f4f4;
@@ -83,4 +99,55 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+.transparent-card p {
+  font-size: 1.1rem;
+  color: #f8f6f6;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+
+.transparent-card h5 {
+  font-size: 1.4rem;
+  color: #f5b800;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+
+.transparent-card ul {
+  list-style-type: none;
+  padding-left: 0;
+  display: inline-block;
+  text-align: left;
+}
+
+.transparent-card ul li {
+  font-size: 1rem;
+  padding-left: 25px;
+  position: relative;
+  margin-bottom: 8px;
+  color: #f7f4f4;
+}
+
+.transparent-card ul li i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #f5b800;
+  font-size: 1.2rem;
+}
+
+
+.transparent-card p strong {
+  color: #f5b800;
+  font-weight: 600;
+}
+
+.transparent-card p {
+  font-size: 1rem;
+  color: #f9f7f7;
+  margin-bottom: 12px;
 }
