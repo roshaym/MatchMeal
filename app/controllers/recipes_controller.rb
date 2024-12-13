@@ -1,9 +1,9 @@
 require 'base64'
 require 'openai'
+require "json"
+require "open-uri"
 
 class RecipesController < ApplicationController
-  require "json"
-  require "open-uri"
 
   def index
     @recipes = Recipe.all
@@ -15,7 +15,6 @@ class RecipesController < ApplicationController
 
   def detect_ingredients
     # Render the form for uploading an image
-    # session.delete(:detected_ingredients)
   end
 
   def process_image
