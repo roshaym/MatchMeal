@@ -33,7 +33,7 @@ image_urls = [
   "http://img.taste.com.au/QaDKlckA/taste/2016/11/fresh-summer-vegetable-salad-91664-1.jpeg",
   "https://static.fanpage.it/wp-content/uploads/sites/22/2018/06/istock-529669952.jpg",
   "https://cdn.cnn.com/cnnnext/dam/assets/210211142532-18-classic-italian-dishes-super-tease.jpg",
-  "https://wallpapercave.com/wp/wp4820451.jpg"
+  "https://sallysbakingaddiction.com/wp-content/uploads/2016/02/easy-peanut-butter-chocolate-lava-cakes-6.jpg"
 ]
 
 recipe_details = [
