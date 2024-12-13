@@ -4,14 +4,12 @@
       <div class="mobile-nav-item">
         <%= link_to favorites_path, class: "mobile-nav-link" do %>
           <i class="fa-solid fa-heart"></i>
-          <span class="mobile-nav-label">Favorites</span>
         <% end %>
       </div>
       
       <div class="mobile-nav-item">
-        <%= link_to detect_ingredients_recipes_path, class: "mobile-nav-link" do %>
+        <%= link_to '/', class: "mobile-nav-link" do %>
           <i class="fa-solid fa-kitchen-set"></i>
-          <span class="mobile-nav-label">Kitchen</span>
         <% end %>
       </div>
       
@@ -19,12 +17,10 @@
         <% if user_signed_in? %>
           <%= link_to "#", class: "mobile-nav-link" do %>
             <i class="fa-solid fa-user"></i>
-            <span class="mobile-nav-label">Profile</span>
           <% end %>
         <% else %>
           <%= link_to new_user_session_path, class: "mobile-nav-link" do %>
             <i class="fa-solid fa-user"></i>
-            <span class="mobile-nav-label">Login</span>
           <% end %>
         <% end %>
       </div>
