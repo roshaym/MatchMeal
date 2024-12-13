@@ -1,7 +1,52 @@
 <!-- app/views/recipes/index.html.erb -->
-<h1>All Recipes</h1>
-<ul>
-  <% @recipes.each do |recipe| %>
-    <li><%= link_to recipe.name, recipe_path(recipe) %></li>
-  <% end %>
-</ul>
+
+<h1>Search Recipes</h1>
+
+<%= form_with url: search_recipes_path, method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :ingredients, "Enter ingredients (comma-separated):" %>
+    <%= form.text_field :ingredients, placeholder: "e.g., chicken, tomato, basil" %>
+  </div>
+  <div>
+    <%= form.submit "Search Recipes" %>
+  </div>
+<% end %>
+
+<% if @recipes.present? %>
+  <h2>Results</h2>
+  <ul>
+    <% @recipes.each do |recipe| %>
+      <li>
+        <img src="<%= recipe['image'] %>" alt="<%= recipe['title'] %>" class="img-fluid">
+        <p><%= recipe['title'] %></p>
+      </li>
+    <% end %>
+  </ul>
+<% elsif @recipes.nil? %>
+  <!-- No search has been performed yet -->
+<% else %>
+  <p>No recipes found for the given ingredients.</p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p class="alert"><%= flash[:alert] %></p>
+<% end %>
+
+<h2>Spoonacular</h2>
+
+<% if @posts.present? %>
+  <ul>
+    <% @posts.each do |post| %>
+      <li>
+        <h2><%= post["title"] %></h2>
+        <p><%= post["body"] %></p>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No posts available.</p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p class="alert"><%= flash[:alert] %></p>
+<% end %>
