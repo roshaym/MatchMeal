@@ -1,0 +1,46 @@
+<div class="container-fluid p-0">
+
+  <div class="banner position-relative">
+    <a href="<%= recipes_path %>" class="btn btn-link text-white position-absolute top-0 start-0 m-3">
+      <i class="fas fa-arrow-left fa-2x"></i>
+    </a>
+
+     <div class="position-absolute top-0 start-2 m-3 mt-5 text-white">
+      <h1><%= @recipe.name %></h1>
+    </div>
+
+    <% if current_user.favorites.exists?(recipe: @recipe) %>
+      <%= button_to recipe_favorite_path(@recipe), method: :delete, remote: true, class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
+        <i class="fas fa-heart text-danger fa-2x"></i>
+      <% end %>
+    <% else %>
+      <%= button_to recipe_favorites_path(@recipe), method: :post, remote: true, class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
+        <i class="far fa-heart text-white fa-2x"></i>
+      <% end %>
+    <% end %>
+
+    <% if @recipe.image.present? %>
+      <img src="<%= @recipe.image %>" alt="<%= @recipe.name %>" class="w-100 h-100 object-fit-cover banner-image">
+    <% else %>
+      <div class="bg-secondary w-100 h-100 banner-placeholder text-white text-center d-flex align-items-center justify-content-center">
+        <p><em>No image available for this recipe.</em></p>
+      </div>
+    <% end %>
+  </div>
+
+
+<div class="card mt-6">
+  <div class="transparent-card p-4">
+
+    <p class="mt-5"><%= @recipe.description %></p>
+    <h5 class="mt-4 text-my-yellow">Ingredients:</h5>
+    <ul>
+      <% @recipe.ingredients.split("\n").each do |ingredient| %>
+        <li><i class="bi bi-dot text-my-yellow"></i> <%= ingredient %></li>
+      <% end %>
+    </ul>
+
+    <p class="mt-3"><strong class="text-my-yellow">Cooking Time:</strong> <%= @recipe.cooking_time %> minutes</p>
+    <p><strong class="text-my-yellow">Rating:</strong> <%= @recipe.rating %>/5</p>
+  </div>
+</div>
