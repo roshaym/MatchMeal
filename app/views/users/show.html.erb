@@ -2,8 +2,8 @@
   <!-- Turbo Stream to listen for updates to the user's profile -->
   <%= turbo_stream_from "profile_#{@user.id}" %>
 
-  <div class="container" style="background-color: #000000;">
-    <h1 class="text-white">Your Profile</h1>
+  <div class="container bg-black my-4">
+    <h1 class="text-white">Profile</h1>
 
     <!-- Display success message if available -->
     <% if flash[:notice] %>
@@ -12,46 +12,36 @@
       </div>
     <% end %>
 
-    <!-- "Your Profile" Button (Redirect to Homepage) -->
-    <%= link_to 'Home', root_path, class: 'btn btn-outline-primary rounded-pill text-white' %>
-
     <!-- Profile Card -->
     <div class="card mt-4 mb-4" style="min-height: 500px;"> <!-- Set min-height for consistency -->
       <div class="card-body d-flex flex-column justify-content-between">
-        <!-- Profile Picture and Username Section -->
         <div class="d-flex flex-column align-items-center mb-4">
-
-          <!-- Profile Picture Label -->
-          <p class="text-primary mb-3 text-left w-100">Profile Picture:</p>
-
           <!-- Check if user has a profile picture -->
           <div class="profile-pic-container mb-3">
             <% if @user.profile_picture.attached? %>
               <%= image_tag @user.profile_picture.url, alt: "Profile Picture", class: "rounded-circle profile-pic", width: "200", height: "200" %>
             <% else %>
-              <!-- Use placeholder URL if no profile picture is attached -->
-              <%= image_tag "https://via.placeholder.com/200/0000FF/808080?text=No+Image", alt: "Default Avatar", class: "rounded-circle profile-pic", width: "200" %>
+              <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541", alt: "Default Avatar", class: "rounded-circle profile-pic", width: "200" %>
             <% end %>
           </div>
 
-          <!-- Username below the Avatar -->
           <h5 class="card-title text-white mb-5">
             <%= @user.first_name %> <%= @user.last_name %>
           </h5>
 
-          <!-- Your Email Section -->
-          <p class="text-white mb-2 text-left w-100">Your Email:</p> <!-- Reduced margin-bottom further -->
-          <p class="text-white mb-0 text-left w-100"><%= @user.email %></p> </div>
+          <p class="text-white mb-2 text-left w-100">Email:</p> <!-- Reduced margin-bottom further -->
+          <p class="text-white mb-0 text-left w-100"><%= @user.email %></p>
+        </div>
 
-        <!-- "Edit Profile" Button (Ghost with $my-yellow) -->
-        <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-outline-primary rounded-pill text-white mt-1' %>
+        <!-- "Edit Profile" Button -->
+        <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-primary btn-lg rounded-pill shadow-sm mb-3' %>
+
+        <!-- "Logout" Button -->
+        <%= form_with url: destroy_user_session_path, method: :delete do %>
+          <%= submit_tag 'Logout', class: "btn btn-outline-primary btn-lg rounded-pill shadow-sm text-black bg-white w-100" %>
+        <% end %>
       </div>
     </div>
-  </div>
-<% else %>
-  <!-- Message when user is not found or logged in -->
-  <div class="alert alert-danger">
-    User not found or you are not logged in. Please log in again.
   </div>
 <% end %>
 
