@@ -1,26 +1,45 @@
-<!-- app/views/favorites/index.html.erb -->
-<h1>My Favorite Recipes</h1>
+<div class="container mt-3">
+  <h1 class="text-center mb-4">My Favorite Recipes</h1>
 
-<% if @favorites.any? %>
-  <ul>
-    <% @favorites.each do |favorite| %>
-      <li>
-        <h2><%= link_to favorite.recipe.name, recipe_path(favorite.recipe) %></h2>
-        <div>
-          <%= image_tag favorite.recipe.image, alt: favorite.recipe.name if favorite.recipe.image.present? %>
+  <% if @favorites.any? %>
+    <div class="row">
+      <% @favorites.each do |favorite| %>
+        <div class="col-12 mb-4">
+          <div class="card shadow-sm">
+            <div class="row g-0">
+              <% if favorite.recipe.image.present? %>
+                <div class="col-4">
+                  <%= image_tag favorite.recipe.image, alt: favorite.recipe.name, class: 'img-fluid rounded-start w-100' %>
+                </div>
+              <% end %>
+              <div class="<%= favorite.recipe.image.present? ? 'col-8' : 'col-12' %>">
+                <div class="card-body">
+                  <h2 class="card-title h5">
+                    <%= link_to favorite.recipe.name, recipe_path(favorite.recipe), class: 'text-decoration-none text-dark' %>
+                  </h2>
+                  <p class="card-text small text-muted">
+                    <%= truncate(favorite.recipe.description, length: 100) %>
+                  </p>
+                  <p class="card-text mb-1">
+                    <strong>Cooking Time:</strong> <%= favorite.recipe.cooking_time %> minutes
+                  </p>
+                  <p class="card-text">
+                    <strong>Rating:</strong> <%= favorite.recipe.rating %> people
+                  </p>
+                  <div class="d-flex justify-content-between">
+                    <%= link_to 'View Full Recipe', recipe_path(favorite.recipe), class: 'btn btn-primary btn-sm' %>
+                    <%= button_to 'Remove from Favorites', recipe_favorite_path(favorite.recipe, favorite), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <p><%= favorite.recipe.description %></p>
-        <p><strong>Cooking Time:</strong> <%= favorite.recipe.cooking_time %> minutes</p>
-        <p><strong>Rating:</strong> <%= favorite.recipe.rating %> people</p>
-        <div>
-          <%= link_to 'View Full Recipe', recipe_path(favorite.recipe), class: 'btn btn-primary' %>
-
-
-          <%= button_to 'Remove from Favorites', recipe_favorite_path(favorite.recipe, favorite), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>You have no favorite recipes yet.</p>
-<% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center mt-5">
+      <p class="text-muted">You have no favorite recipes yet.</p>
+    </div>
+  <% end %>
+</div>

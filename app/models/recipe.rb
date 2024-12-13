@@ -4,5 +4,6 @@ class Recipe < ApplicationRecord
   validates :name, presence: true
   validates :rating, inclusion: { in: 1..5 }, allow_nil: true
   validates :search_id, presence: true
+  # TODO - remove image and rating
   validates :name, :image, :rating, presence: true
 end
