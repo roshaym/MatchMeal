@@ -1,33 +1,31 @@
-  <h2 class="text-center text-my-yellow mb-5">Here are your recipes</h2>
+<h2 class="text-center text-my-yellow mb-5">Here are your recipes</h2>
 
-  <div class="row">
-    <% @recipes.each do |recipe| %>
-      <div class="col-md-4 mb-4">
-        <div class="card border-0 shadow-lg rounded-lg">
+<div class="row">
+  <% @recipes.each do |recipe| %>
+    <div class="col-md-4 mb-4">
+      <div class="card border-0 shadow-lg rounded-lg">
 
+        <a href="<%= recipe_path(recipe) %>">
           <% if recipe.image.present? %>
             <img src="<%= recipe.image %>" alt="<%= recipe.name %>" class="card-img-top rounded-top" />
           <% else %>
             <img src="https://via.placeholder.com/400" alt="Recipe image" class="card-img-top rounded-top" />
           <% end %>
+        </a>
 
-          <div class="card-body text-center bg-my-dark-blue text-white p-4 rounded-bottom">
+        <div class="card-body text-center bg-my-dark-blue text-white p-4 rounded-bottom">
+          <h5 class="card-title text-my-yellow mb-3"><%= recipe.name %></h5>
 
-            <h5 class="card-title text-my-yellow mb-3"><%= recipe.name %></h5>
-
-
-            <p class="card-text">
-              <span class="text-warning">
-                <%= '★' * recipe.rating %>
-              </span>
-              <span class="text-light">
-                <%= '☆' * (5 - recipe.rating) %>
-              </span>
-
-            <a href="<%= recipe_path(recipe) %>" class="btn btn-my-yellow btn-lg mt-3 px-4 py-2 rounded-xxl">
-              View Recipe
-            </a>
-          </div>
+          <p class="card-text text-center">
+            <span class="text-warning">
+              <%= '★' * recipe.rating %>
+            </span>
+            <span class="text-light">
+              <%= '☆' * (5 - recipe.rating) %>
+            </span>
+          </p>
         </div>
       </div>
-    <% end %>
+    </div>
+  <% end %>
+</div>
