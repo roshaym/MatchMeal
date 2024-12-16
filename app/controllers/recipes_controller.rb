@@ -38,10 +38,6 @@ class RecipesController < ApplicationController
     begin
       response = URI.parse(url).read
       @recipe = JSON.parse(response)
-
-      # # Ensure defaults if keys are missing
-      # @recipe["usedIngredients"] ||= []
-      # @recipe["missedIngredients"] ||= []
     rescue OpenURI::HTTPError => e
       flash[:error] = "Unable to fetch recipe details: #{e.message}"
       redirect_to recipes_path
