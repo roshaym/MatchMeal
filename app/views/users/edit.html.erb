@@ -1,7 +1,7 @@
 <% if @user.present? %>
   <%= turbo_stream_from "profile_#{@user.id}" %>
 
-  <div class="container">
+  <div class="container" data-controller="profile">
     <h1 class="text-white">Edit Your Profile</h1>
     <!-- Profile Card for Edit Form -->
     <div class="card mt-4">
@@ -49,7 +49,10 @@
                   class: 'custom-file-input d-none', 
                   id: 'profile_picture_input', 
                   accept: 'image/*', 
-                  data: { action: 'change->profile#preview' } %>
+                  data: { 
+                    profile_target: 'input',
+                    action: 'change->profile#preview' 
+                  } %>
               <label for="profile_picture_input" class="btn btn-outline-primary rounded-pill text-white">
                 Upload New Picture
               </label>
@@ -58,6 +61,7 @@
             <!-- Image Preview Container -->
             <div id="avatar_preview_container" class="text-center">
               <img id="avatar_preview" 
+                   data-profile-target="preview"
                    style="max-width: 200px; max-height: 200px; display: none;" 
                    alt="Image Preview" 
                    class="img-fluid rounded" />
@@ -91,27 +95,3 @@
 <% end %>
 
 <div id="error_message"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const profilePictureInput = document.getElementById('profile_picture_input');
-  const avatarPreview = document.getElementById('avatar_preview');
-
-  profilePictureInput.addEventListener('change', function(event) {
-    const input = event.target;
-    
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      
-      reader.onload = function(e) {
-        avatarPreview.src = e.target.result;
-        avatarPreview.style.display = 'block';
-      }
-      
-      reader.readAsDataURL(input.files[0]);
-    } else {
-      avatarPreview.style.display = 'none';
-    }
-  });
-});
-</script>
