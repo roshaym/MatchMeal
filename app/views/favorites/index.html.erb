@@ -26,6 +26,17 @@
                 <strong>Cooking Time:</strong> <%= favorite.recipe.cooking_time %> minutes
               </p>
 
+              <p class="card-text text-center mb-2">
+                <strong>Rating:</strong>
+                <% rating = favorite.recipe.rating.to_i %>
+                <% 5.times do |i| %>
+                  <% if i < rating %>
+                    <i class="fas fa-star text-warning"></i>
+                  <% else %>
+                    <i class="far fa-star text-warning"></i>
+                  <% end %>
+                <% end %>
+              </p>
 
               <%= button_to 'Remove from Favorites', recipe_favorite_path(favorite.recipe, favorite), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm w-100' %>
             </div>

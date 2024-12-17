@@ -25,8 +25,6 @@ class RecipesController < ApplicationController
       flash[:alert] = "Failed to fetch posts: #{e.message}"
     end
 
-    # @recipes = Recipe.all
-
   end
 
   def show
@@ -39,11 +37,54 @@ class RecipesController < ApplicationController
       response = URI.parse(url).read
       @recipe = JSON.parse(response)
 
-      # # Ensure defaults if keys are missing
-      # @recipe["usedIngredients"] ||= []
-      # @recipe["missedIngredients"] ||= []
     rescue OpenURI::HTTPError => e
       flash[:error] = "Unable to fetch recipe details: #{e.message}"
+      redirect_to recipes_path
+    end
+  end
+
+  def new
+    @recipe = Recipe.new
+  end
+
+  def create
+    unless current_user
+      redirect_to new_user_session_path, alert: 'You must be logged in to favorite a recipe.'
+      return
+    end
+
+    # Fetch the recipe data using Spoonacular API
+    api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
+    recipe_id = params[:recipe_id]
+
+    url = "https://api.spoonacular.com/recipes/#{recipe_id}/information?apiKey=#{api_key}"
+
+    begin
+      response = URI.parse(url).read
+      recipe_data = JSON.parse(response)
+
+      # Build the recipe in the database
+      @recipe = Recipe.find_or_initialize_by(id: recipe_id)
+      @recipe.assign_attributes(
+        name: recipe_data["title"],
+        description: recipe_data["summary"],
+        ingredients: recipe_data["extendedIngredients"]&.map { |i| i["original"] }&.join("\n"),
+        cooking_time: recipe_data["readyInMinutes"],
+        rating: (recipe_data["spoonacularScore"].to_f / 20).round(1),
+        image: recipe_data["image"],
+        search_id: Search.first.id # Ensure this matches your schema
+      )
+
+      if @recipe.save
+        # After saving the recipe, create a favorite for the current user
+        current_user.favorites.find_or_create_by(recipe_id: @recipe.id)
+        redirect_to recipe_path(@recipe.id), notice: "Recipe saved and favorited successfully!"
+      else
+        flash[:alert] = "Unable to save recipe: #{@recipe.errors.full_messages.join(', ')}"
+        redirect_to recipes_path
+      end
+    rescue OpenURI::HTTPError => e
+      flash[:alert] = "Error fetching recipe data: #{e.message}"
       redirect_to recipes_path
     end
   end
@@ -109,33 +150,37 @@ class RecipesController < ApplicationController
     end
   end
 
-  def generate_recipes
-    api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
-
-    @ingredients = session[:detected_ingredients]
-    if @ingredients.nil?
-      flash[:error] = "No ingredients detected yet."
-      redirect_to detect_ingredients_recipes_path
-    end
-
-    url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=#{@ingredients}&number=10&ranking=1&apiKey=#{api_key}"
-
-    begin
-      # Open the URL and parse the JSON response
-      @posts = []
-      response = URI.parse(url).read
-      @posts = JSON.parse(response)
-    rescue OpenURI::HTTPError => e
-      # Handle errors (e.g., API down, invalid URL)
-      @posts = []
-      flash[:alert] = "Failed to fetch posts: #{e.message}"
-    end
-  end
-
   private
 
   def recipe_params
     params.permit(:image)
+  end
+
+  # Fetch recipe details from the Spoonacular API
+  def fetch_recipe_from_api(recipe_id, api_key)
+    url = "https://api.spoonacular.com/recipes/#{recipe_id}/information?apiKey=#{api_key}"
+
+    begin
+      response = URI.parse(url).read
+      JSON.parse(response)
+    rescue OpenURI::HTTPError => e
+      Rails.logger.error "API Error: #{e.message}"
+      nil
+    end
+  end
+
+  # Format ingredients into a single string
+  def format_ingredients(ingredients)
+    return "" unless ingredients
+    ingredients.map { |ingredient| ingredient["original"] }.join("\n")
+  end
+
+  # Format instructions into a single string
+  def format_instructions(instructions)
+    return "" unless instructions
+    instructions.map do |instruction|
+      instruction["steps"].map { |step| step["step"] }.join(" ")
+    end.join("\n")
   end
 
 end
