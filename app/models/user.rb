@@ -14,7 +14,6 @@ class User < ApplicationRecord
   # Validating password only when it's provided
   validates :password, confirmation: true, length: { minimum: 6 }, allow_nil: true
 
-  has_secure_password
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   def update_without_password(params)
