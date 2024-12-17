@@ -1,16 +1,51 @@
 require 'base64'
 require 'openai'
-require "json"
 require "open-uri"
 
 class RecipesController < ApplicationController
-
   def index
-    @recipes = Recipe.all
+    api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
+
+    @ingredients = session[:detected_ingredients]
+    if @ingredients.nil?
+      flash[:error] = "No ingredients detected yet."
+      redirect_to detect_ingredients_recipes_path
+    end
+
+    url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=#{@ingredients}&number=10&ranking=1&apiKey=#{api_key}"
+
+    begin
+      # Open the URL and parse the JSON response
+      @posts = []
+      response = URI.parse(url).read
+      @posts = JSON.parse(response)
+    rescue OpenURI::HTTPError => e
+      # Handle errors (e.g., API down, invalid URL)
+      @posts = []
+      flash[:alert] = "Failed to fetch posts: #{e.message}"
+    end
+
+    # @recipes = Recipe.all
+
   end
 
   def show
-    @recipe = Recipe.find(params[:id])
+    api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
+    recipe_id = params[:id]
+
+    url = "https://api.spoonacular.com/recipes/#{recipe_id}/information?apiKey=#{api_key}"
+
+    begin
+      response = URI.parse(url).read
+      @recipe = JSON.parse(response)
+
+      # # Ensure defaults if keys are missing
+      # @recipe["usedIngredients"] ||= []
+      # @recipe["missedIngredients"] ||= []
+    rescue OpenURI::HTTPError => e
+      flash[:error] = "Unable to fetch recipe details: #{e.message}"
+      redirect_to recipes_path
+    end
   end
 
   def detect_ingredients
@@ -104,4 +139,3 @@ class RecipesController < ApplicationController
   end
 
 end
- 
