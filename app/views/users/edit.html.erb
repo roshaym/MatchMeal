@@ -1,14 +1,13 @@
 <% if @user.present? %>
   <%= turbo_stream_from "profile_#{@user.id}" %>
 
-  <div class="container py-4">
+  <div class="container py-4" data-controller="profile">
     <%= render 'shared/header', title: 'Edit Profile' %>
     <!-- Profile Card for Edit Form -->
     <div class="card mt-4">
       <div class="card-body">
         <!-- Profile Picture and Username Section -->
         <div class="d-flex flex-column align-items-center mb-4">
-
           <!-- Check if user has a profile picture -->
           <div class="profile-pic-container mb-3">
             <% if @user.profile_picture.attached? %>
@@ -22,7 +21,6 @@
 
         <!-- Form Starts Here -->
         <%= form_with model: @user, url: user_path(@user), method: :patch, local: false do |form| %>
-
           <!-- First Name -->
           <div class="form-group">
             <%= form.label :first_name, class: 'text-primary' %>
@@ -41,43 +39,50 @@
             <%= form.email_field :email, class: 'form-control' %>
           </div>
 
-         <!-- Profile Picture -->
-<div class="form-group">
-  <%= form.label :profile_picture, class: 'text-primary' %>
+          <!-- Profile Picture -->
+          <div class="form-group">
+            <%= form.label :profile_picture, class: 'text-primary' %>
 
-  <!-- Profile Picture Preview -->
-<!--  <div class="mt-3"> 
-    <% if @user.profile_picture.attached? %>
-      <%= image_tag @user.profile_picture.url, class: 'img-fluid img-thumbnail rounded-circle', id: 'profile-picture-preview', style: 'width: 200px; height: 200px; object-fit: cover;' %>
-    <% else %>
-      <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541", class: 'img-fluid img-thumbnail rounded-circle', id: 'profile-picture-preview', style: 'width: 100px; height: 100px; object-fit: cover;' %>
-    <% end %>
-  </div>
-</div>
+            <!-- Profile Picture Upload -->
+            <div class="custom-file mt-4 mb-4">
+              <%= form.file_field :profile_picture, 
+                  class: 'custom-file-input d-none', 
+                  id: 'profile_picture_input', 
+                  accept: 'image/*', 
+                  data: { 
+                    profile_target: 'input',
+                    action: 'change->profile#preview' 
+                  } %>
+              <label for="profile_picture_input" class="btn btn-outline-primary rounded-pill text-white">
+                Upload New Picture
+              </label>
+            </div>
 
-<div class="custom-file mt-4 mb-4"> 
-  <%= form.file_field :profile_picture, class: 'custom-file-input d-none', id: 'profile_picture_input' %>
-  <label for="profile_picture_input" class="btn btn-outline-primary rounded-pill text-white">Upload New Picture</label>
-</div> -->
+            <!-- Image Preview Container -->
+            <div id="avatar_preview_container" class="text-center">
+              <img id="avatar_preview" 
+                   data-profile-target="preview"
+                   style="max-width: 200px; max-height: 200px; display: none;" 
+                   alt="Image Preview" 
+                   class="img-fluid rounded" />
+            </div>
+          </div>
 
-<!-- New Password with Margin Top -->
-<div class="form-group mt-4"> <!-- Added mt-4 for margin top -->
-  <%= form.label :password, 'New Password', class: 'text-primary' %>
-  <%= form.password_field :password, class: 'form-control' %>
-</div>
+          <!-- Password fields only if the user wants to change the password -->
+          <div class="form-group mt-4">
+            <%= form.label :password, 'New Password', class: 'text-primary' %>
+            <%= form.password_field :password, class: 'form-control' %>
+          </div>
 
-                <!-- Confirm New Password -->
           <div class="form-group">
             <%= form.label :password_confirmation, 'Confirm New Password', class: 'text-primary' %>
             <%= form.password_field :password_confirmation, class: 'form-control' %>
           </div>
 
           <!-- Submit Button with more spacing -->
-          <div class="form-group mt-4">  <!-- mt-4 adds margin-top -->
+          <div class="form-group mt-4">
             <%= form.submit 'Update Profile', class: 'btn btn-primary btn-lg rounded-pill shadow-sm mb-3' %>
           </div>
-
-
         <% end %>
       </div>
     </div>
