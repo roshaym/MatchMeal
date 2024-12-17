@@ -10,55 +10,60 @@
             <h1><%= @recipe["title"] %></h1>
           </div>
 
-          <% if current_user.favorites.exists?(recipe_id: @recipe["id"]) %>
-            <%= button_to recipe_favorite_path(@recipe["id"], current_user.favorites.find_by(recipe_id: @recipe["id"])),
-                    method: :delete,
-                    remote: true,
-                    class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
-        <i class="fas fa-heart text-white fa-2x"></i>
-      <% end %>
-    <% else %>
-      <%= button_to recipe_favorites_path(@recipe["id"]),
-                    method: :post,
-                    remote: true,
-                    class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
-        <i class="far fa-heart text-white fa-2x"></i>
-      <% end %>
-    <% end %>
+          <!-- Favorite Button -->
+          <% saved_recipe = Recipe.find_by(id: @recipe["id"]) %>
+          <% if saved_recipe && current_user.favorites.exists?(recipe_id: saved_recipe.id) %>
+            <!-- Unfavorite Button -->
+            <%= button_to recipe_favorite_path(saved_recipe.id, current_user.favorites.find_by(recipe_id: saved_recipe.id)),
+                          method: :delete,
+                          class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
+              <i class="fas fa-heart text-white fa-2x"></i>
+            <% end %>
+          <% else %>
+            <!-- Favorite Button -->
+            <%= button_to recipes_path,
+                          method: :post,
+                          params: { recipe_id: @recipe["id"] },
+                          class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
+              <i class="far fa-heart text-white fa-2x"></i>
+            <% end %>
+          <% end %>
 
-    <% if @recipe["image"].present? %>
-      <img src="<%= @recipe["image"] %>" alt="<%= @recipe["title"] %>" class="w-100 h-100 object-fit-cover banner-image">
-    <% else %>
-      <div class="bg-secondary w-100 h-100 banner-placeholder text-white text-center d-flex align-items-center justify-content-center">
-        <p><em>No image available for this recipe.</em></p>
+          <!-- Recipe Image -->
+          <% if @recipe["image"].present? %>
+            <img src="<%= @recipe["image"] %>" alt="<%= @recipe["title"] %>" class="w-100 h-100 object-fit-cover banner-image">
+          <% else %>
+            <div class="bg-secondary w-100 h-100 banner-placeholder text-white text-center d-flex align-items-center justify-content-center">
+              <p><em>No image available for this recipe.</em></p>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Ingredients and Instructions -->
+        <div class="card mt-6">
+          <h4>Ingredients:</h4>
+          <ul>
+            <% if @recipe["extendedIngredients"].present? %>
+              <% @recipe["extendedIngredients"].each do |ingredient| %>
+                <li><%= ingredient["original"] %></li>
+              <% end %>
+            <% else %>
+              <li>No ingredients available.</li>
+            <% end %>
+          </ul>
+
+          <h4>Instructions:</h4>
+          <ol>
+            <% if @recipe["analyzedInstructions"].present? %>
+              <% @recipe["analyzedInstructions"].each do |instruction| %>
+                <% instruction["steps"].each do |step| %>
+                  <li><strong>Step <%= step["number"] %>:</strong> <%= step["step"] %></li>
+                <% end %>
+              <% end %>
+            <% end %>
+          </ol>
+        </div>
       </div>
-    <% end %>
-  </div>
-
-  <div class="card mt-6">
-  <h4>Ingredients:</h4>
-  <ul>
-    <% if @recipe["extendedIngredients"].present? %>
-      <% @recipe["extendedIngredients"].each do |ingredient| %>
-        <li><%= ingredient["original"] %></li>
-      <% end %>
-    <% else %>
-      <li>No ingredients available.</li>
-    <% end %>
-  </ul>
-
-  <h4>Instructions:</h4>
-  <ol>
-    <% if @recipe["analyzedInstructions"].present? %>
-      <% @recipe["analyzedInstructions"].each do |instruction| %>
-        <% instruction["steps"].each do |step| %>
-          <li><strong>Step <%= step["number"] %>:</strong> <%= step["step"] %></li>
-        <% end %>
-      <% end %>
-    <% end %>
-  </ol>
-  </div>
-</div>
     </div>
   </div>
 </div>

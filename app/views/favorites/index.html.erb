@@ -15,17 +15,25 @@
               <% end %>
             </a>
 
-
             <div class="card-body text-center bg-my-dark-blue text-white p-4 rounded-bottom">
 
               <h5 class="card-title text-my-yellow mb-3"><%= favorite.recipe.name %></h5>
-
-
 
               <p class="card-text text-center mb-2">
                 <strong>Cooking Time:</strong> <%= favorite.recipe.cooking_time %> minutes
               </p>
 
+              <p class="card-text text-center mb-2">
+                <strong>Rating:</strong>
+                <% rating = favorite.recipe.rating.to_i %>
+                <% 5.times do |i| %>
+                  <% if i < rating %>
+                    <i class="fas fa-star text-warning"></i>
+                  <% else %>
+                    <i class="far fa-star text-warning"></i>
+                  <% end %>
+                <% end %>
+              </p>
 
               <%= button_to 'Remove from Favorites', recipe_favorite_path(favorite.recipe, favorite), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm w-100' %>
             </div>
@@ -36,8 +44,6 @@
   <% else %>
     <div class="text-center mt-5">
       <p class="text-muted">You have no favorite recipes yet.</p>
-
-      <%= link_to 'Go Back to Recipes', recipes_path, class: 'btn btn-my-yellow btn-lg mt-3 px-4 py-2 rounded-xxl' %>
     </div>
   <% end %>
 </div>
