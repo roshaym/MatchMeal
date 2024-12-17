@@ -9,53 +9,47 @@ class UsersController < ApplicationController
     @user = current_user  # Set @user to the logged-in user
   end
 
-
   def update
-    @user = current_user
-
-    # Flag to check if password was updated
+    # Check if password is being updated
     password_changed = user_params[:password].present?
 
-    if @user.update(user_params)
-      if password_changed
-        # If password is updated, sign out the user and send them to login
-        sign_out(@user)
-        flash[:notice] = "Password updated successfully. Please log in again."
-
-        respond_to do |format|
-          format.turbo_stream do
-            # Turbo handles the redirect by replacing "error_message" with the flash message
-            render turbo_stream: turbo_stream.replace("error_message", partial: "shared/flash_message")
-          end
-          format.html { redirect_to new_user_session_path, notice: "Password updated successfully. Please log in again." }
-          format.json { render json: { notice: "Password updated successfully. Please log in again." } }
-        end
+    if password_changed
+      # If password is updated, update normally
+      if current_user.update(user_params)
+        sign_out(current_user)  # Sign out the user (optional, if password is updated)
+        flash[:notice] = 'Profile updated successfully. Please log in again.'
+        redirect_to new_user_session_path  # Redirect to login page
       else
-        # If no password update, simply redirect to profile page
-        respond_to do |format|
-          format.turbo_stream do
-            # Turbo handles the redirect by replacing "error_message" with the flash message
-            render turbo_stream: turbo_stream.replace("error_message", partial: "shared/flash_message")
-          end
-          format.html { redirect_to user_path(@user), notice: "Profile updated successfully!" }
-          format.json { render json: { notice: "Profile updated successfully!" } }
-        end
+        render :edit  # If update fails, render the edit page again
       end
+      # If password is not updated, update without password
+    elsif current_user.update_without_password(user_params)
+      flash[:notice] = 'Profile updated successfully.'
+      redirect_to user_path(current_user)  # Redirect to user's show page
     else
-      # Handle errors in case update fails
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("error_message", partial: "shared/error_messages", locals: { errors: @user.errors.full_messages })
-        end
-        format.html { render :edit }
-        format.json { render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity }
-      end
+      render :edit  # If update fails, render the edit page again
     end
   end
 
+
+
   private
 
-  def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :profile_picture, :password, :password_confirmation)
+  def set_user
+    @user = User.find(params[:id])  # Finds the user, raises ActiveRecord::RecordNotFound if not found
   end
+
+  def user_params
+    permitted_params = params.require(:user).permit(:first_name, :last_name, :email, :profile_picture, :password, :password_confirmation)
+    permitted_params.delete(:password) if permitted_params[:password].blank?
+    permitted_params.delete(:password_confirmation) if permitted_params[:password_confirmation].blank?
+    # Only permit password fields if they're present
+    # if params[:user][:password].present?
+      # permitted_params[:password] = params[:user][:password]
+      # permitted_params[:password_confirmation] = params[:user][:password_confirmation]
+    # end
+
+    permitted_params
+  end
+
 end
