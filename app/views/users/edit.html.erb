@@ -54,7 +54,7 @@
   <%= form.label :profile_picture, class: 'text-primary' %>
 
   <!-- Profile Picture Preview -->
-<!--  <div class="mt-3"> 
+<!--  <div class="mt-3">
     <% if @user.profile_picture.attached? %>
       <%= image_tag @user.profile_picture.url, class: 'img-fluid img-thumbnail rounded-circle', id: 'profile-picture-preview', style: 'width: 200px; height: 200px; object-fit: cover;' %>
     <% else %>
@@ -62,11 +62,17 @@
     <% end %>
   </div>
 </div>
-
-<div class="custom-file mt-4 mb-4"> 
+-->
+<div class="custom-file mt-4 mb-4">
   <%= form.file_field :profile_picture, class: 'custom-file-input d-none', id: 'profile_picture_input' %>
   <label for="profile_picture_input" class="btn btn-outline-primary rounded-pill text-white">Upload New Picture</label>
-</div> -->
+</div>
+
+ <!-- Image Preview -->
+    <div id="avatar_preview_container">
+      <%= image_tag(@user.profile_picture, id: "avatar_preview", style: "max-width: 200px; max-height: 200px;") if @user.profile_picture.attached? %>
+    </div>
+  </div>
 
 <!-- New Password with Margin Top -->
 <div class="form-group mt-4"> <!-- Added mt-4 for margin top -->
