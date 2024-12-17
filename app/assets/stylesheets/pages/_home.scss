@@ -1,1 +1,21 @@
 // Specific CSS for your home-page
+.app-name {
+    color: $primary;
+    font-weight: bold;
+}
+
+.background-image {
+    background-image: asset-url('backgroundimage.png');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.custom-h1 {
+    font-size: 3rem;
+}

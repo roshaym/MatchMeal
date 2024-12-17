@@ -1,13 +1,13 @@
 <div class="d-flex justify-content-center align-items-center" style="height: 70vh; position: relative; padding-top: 5vh;">
   <div class="text-center">
 
-<h1 class="fw-bold custom-h1">Welcome to <span class="header">MatchMeal</span></h1>
+<h1 class="fw-bold custom-h1">Welcome to <span class="app-name">MatchMeal</span></h1>
 
     <p class="fs-5 mb-5">Make the most of what’s in your kitchen</p>
 
-<%= link_to "Start Now", detect_ingredients_recipes_path, class: "btn btn-lg start-btn px-5 py-3 mt-3" %>
+    <%= link_to "Start Now", detect_ingredients_recipes_path, class:'btn btn-primary btn-lg rounded-pill shadow-sm mb-3' %>
   </div>
 </div>
 
-  <div class="background-icon" style="background-image: url('<%= asset_path('backgroundimage.png') %>');"></div>
+  <div class="background-image" style="background-image: url('<%= asset_path('backgroundimage.png') %>');"></div>
   </div>
