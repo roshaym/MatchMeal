@@ -16,7 +16,6 @@
             <!-- Unfavorite Button -->
             <%= button_to recipe_favorite_path(saved_recipe.id, current_user.favorites.find_by(recipe_id: saved_recipe.id)),
                           method: :delete,
-                          remote: true,
                           class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
               <i class="fas fa-heart text-white fa-2x"></i>
             <% end %>

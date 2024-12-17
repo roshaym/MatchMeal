@@ -20,7 +20,11 @@ class FavoritesController < ApplicationController
     favorite = current_user.favorites.find_by(recipe: @recipe)
 
     if favorite&.destroy
-      redirect_to @recipe, notice: 'Recipe was removed from your favorites.'
+      if request.referer.include?("/favorites")
+        redirect_to favorites_path, notice: 'Recipe was removed from your favorites.'
+      else
+        redirect_to @recipe, notice: 'Recipe was removed from your favorites.'
+      end
     else
       redirect_to @recipe, alert: 'Unable to remove from favorites.'
     end
