@@ -1,8 +1,8 @@
 <% if @user.present? %>
   <%= turbo_stream_from "profile_#{@user.id}" %>
 
-  <div class="container" data-controller="profile">
-    <h1 class="text-white">Edit Your Profile</h1>
+  <div class="container py-4" data-controller="profile">
+    <%= render 'shared/header', title: 'Edit Profile' %>
     <!-- Profile Card for Edit Form -->
     <div class="card mt-4">
       <div class="card-body">

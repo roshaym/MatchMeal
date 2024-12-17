@@ -1,17 +1,19 @@
-<h2 class="text-center text-my-yellow mb-5">Here are your recipes</h2>
+<div class="container py-4">
+  <%= render 'shared/header', title: 'Recipe List' %>
 
-<div class="row">
-  <% @posts.each do |post| %>
-    <div class="col-md-4 mb-4">
-      <div class="card border-0 shadow-lg rounded-lg">
-        <img src="<%= post["image"] %>" class="card-img-top rounded-top" alt="<%= post["title"] %>">
-        <div class="card-body text-center">
-          <h5 class="card-title text-my-yellow mb-3"><%= post["title"] %></h5>
-          <p>Used ingredients: <%= post["usedIngredientCount"] %></p>
-          <p>Missing ingredients: <%= post["missedIngredientCount"] %></p>
-          <%= link_to "View Recipe", recipe_path(post["id"]), class: "btn btn-primary mt-3" %>
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card border-0 shadow-lg rounded-lg">
+          <img src="<%= post["image"] %>" class="card-img-top rounded-top" alt="<%= post["title"] %>">
+          <div class="card-body text-center">
+            <h5 class="card-title text-my-yellow mb-3"><%= post["title"] %></h5>
+            <p>Used ingredients: <%= post["usedIngredientCount"] %></p>
+            <p>Missing ingredients: <%= post["missedIngredientCount"] %></p>
+            <%= link_to "View Recipe", recipe_path(post["id"]), class: "btn btn-primary mt-3" %>
+          </div>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
