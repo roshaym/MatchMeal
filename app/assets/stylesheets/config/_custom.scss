@@ -67,11 +67,3 @@ p {
   background-color: darken($my-yellow, 10%) !important; /* Darken on hover/focus */
   border-color: darken($my-yellow, 10%) !important;
 }
-
-
-.custom-pill-top {
-  border-top-left-radius: 50px; /* Makes the top-left corner rounded */
-  border-top-right-radius: 50px; /* Makes the top-right corner rounded */
-  border-bottom-left-radius: 0;  /* Keeps the bottom-left corner square */
-  border-bottom-right-radius: 0; /* Keeps the bottom-right corner square */
-}
