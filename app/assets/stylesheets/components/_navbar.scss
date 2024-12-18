@@ -42,10 +42,6 @@
   padding: 10px 0;
 }
 
-.navbar-mobile-icons i {
-  font-size: 2.5rem;
-}
-
 
 .mobile-nav-item {
   flex-grow: 1;
@@ -68,25 +64,4 @@
     font-size: 0.75rem;
     color: #666;
   }
-}
-
-.mobile-nav-link:hover,
-.mobile-nav-link:focus {
-  color: $warning;
-}
-
-.mobile-nav-link:focus,
-.mobile-nav-link:hover {
-  .mobile-nav-label {
-    color: $warning;
-  }
-}
-
-
-.mobile-nav-link.active {
-  color: $my-orange; /* Apply the success color */
-}
-
-.mobile-nav-link.active .mobile-nav-label {
-  color: $my-orange; /* Ensure the label also gets the active color */
 }
