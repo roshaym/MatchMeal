@@ -1,0 +1,14 @@
+.recipe-pill {
+  display: flex;
+  gap: 10px;
+  margin: 5px 0;
+  margin-bottom: 30px;
+  background-color: $my-yellow;
+  color: $black;
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
+
+}

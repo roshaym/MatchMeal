@@ -32,7 +32,7 @@ class RecipesController < ApplicationController
     api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
     recipe_id = params[:id]
 
-    url = "https://api.spoonacular.com/recipes/#{recipe_id}/information?apiKey=#{api_key}"
+    url = "https://api.spoonacular.com/recipes/#{recipe_id}/information?includeNutrition=true&apiKey=#{api_key}"
 
     begin
       response = URI.parse(url).read
