@@ -1,4 +1,4 @@
-<div class="container my-5" data-controller="ingredient-detection">
+<div class="container mt-5 page-container" data-controller="ingredient-detection">
   <%= render 'shared/header', title: 'Detect Ingredients' %>
 
   <%= form_with(url: process_image_recipes_path, method: :post, multipart: true, class: "needs-validation") do |form| %>

@@ -1,42 +1,45 @@
-<div class="container mt-3">
-  <h2 class="text-center text-my-yellow mb-5">Here are your favorite recipes</h2>
+<div class="container mt-3 page-container">
+  <h2 class="text-center text-my-yellow mb-5">Favorites</h2>
 
   <% if @favorites.any? %>
     <div class="row gy-4">
       <% @favorites.each do |favorite| %>
         <div class="col-12">
-          <div class="card border-0 shadow-lg rounded-lg">
+          <div class="border-0 shadow-lg rounded-lg" style="$background-color; position: relative;">
+            <%= button_to recipe_favorite_path(favorite.recipe, favorite), method: :delete, remote: true, class: "btn btn-link position-absolute top-0 start-0 text-primary m-2", style: "font-size: 2rem; z-index: 2;", data: { toggle_class: "text-secondary" } do %>
+              <i class="fas fa-heart"></i>
+            <% end %>
 
-            <a href="<%= recipe_path(favorite.recipe) %>">
-              <% if favorite.recipe.image.present? %>
-                <img src="<%= favorite.recipe.image %>" alt="<%= favorite.recipe.name %>" class="card-img-top rounded-top img-fluid" />
-              <% else %>
-                <img src="https://via.placeholder.com/400" alt="Recipe image" class="card-img-top rounded-top img-fluid" />
-              <% end %>
-            </a>
-
-            <div class="card-body text-center bg-my-dark-blue text-white p-4 rounded-bottom">
-
-              <h5 class="card-title text-my-yellow mb-3"><%= favorite.recipe.name %></h5>
-
-              <p class="card-text text-center mb-2">
-                <strong>Cooking Time:</strong> <%= favorite.recipe.cooking_time %> minutes
-              </p>
-
-              <p class="card-text text-center mb-2">
-                <strong>Rating:</strong>
-                <% rating = favorite.recipe.rating.to_i %>
-                <% 5.times do |i| %>
-                  <% if i < rating %>
-                    <i class="fas fa-star text-warning"></i>
-                  <% else %>
-                    <i class="far fa-star text-warning"></i>
-                  <% end %>
+            <a href="<%= recipe_path(favorite.recipe) %>" class="stretched-link text-decoration-none">
+              <div class="position-relative p-2 favorite-card rounded-top-4">
+                <% if favorite.recipe.image.present? %>
+                  <img src="<%= favorite.recipe.image %>" alt="<%= favorite.recipe.name %>" class="card-img-top rounded-4 img-fluid object-fit-cover" style="max-height:25vh" />
+                <% else %>
+                  <img src="https://via.placeholder.com/400" alt="Recipe image" class="card-img-top rounded-4 img-fluid " style="max-height:30vh" />
                 <% end %>
-              </p>
+              </div>
 
-              <%= button_to 'Remove from Favorites', recipe_favorite_path(favorite.recipe, favorite), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm w-100' %>
-            </div>
+              <div class="favorite-body text-center bg-my-dark-blue text-white p-4" style="border-radius: 0 0 15px 15px;">
+                <h5 class="card-title text-my-yellow mb-3 d-flex justify-content-center align-items-center gap-2">
+                  <span class="text-start"><%= favorite.recipe.name %></span>
+                  <span style="font-size: 0.8rem; display: flex; align-items: center; text-align: left;">
+                  <% rating = favorite.recipe.rating.to_i %>
+                  <% 5.times do |i| %>
+                    <% if i < rating %>
+                      <i class="fas fa-star text-warning"></i>
+                    <% else %>
+                      <i class="far fa-star text-warning"></i>
+                    <% end %>
+                  <% end %>
+                </span>
+
+                </h5>
+
+                <p class="card-text text-center mb-2">
+                  <i class="fas fa-clock"></i> <strong><%= favorite.recipe.cooking_time %> min</strong>
+                </p>
+              </div>
+            </a>
           </div>
         </div>
       <% end %>
