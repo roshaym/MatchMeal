@@ -37,18 +37,3 @@
 .d-flex {
   gap: 15px;  /* Adjust the value to control the space between the items */
 }
-
-.row {
-  margin: 0; /* Reset margins for proper alignment */
-  padding: 0; /* Reset paddings */
-}
-
-ul, ol {
-  list-style-type: none;  /* Removes bullets and numbering */
-  // padding-left: 0;        /* Removes left padding */
-  margin: 0;              /* Removes any margin */
-}
-
-ul li, ol li {
-  padding-bottom: 10px;  /* Adds space inside each list item */
-}

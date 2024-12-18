@@ -59,7 +59,7 @@
           <ul>
             <% if @recipe["extendedIngredients"].present? %>
               <% @recipe["extendedIngredients"].each do |ingredient| %>
-                <li><%= ingredient["original"] %></li>
+                <li class="pb-2 list-unstyled"><%= ingredient["original"] %></li>
               <% end %>
             <% else %>
               <li>No ingredients available.</li>
@@ -71,14 +71,15 @@
             <% if @recipe["analyzedInstructions"].present? %>
               <% @recipe["analyzedInstructions"].each do |instruction| %>
                 <% instruction["steps"].each do |step| %>
-                  <li><strong>Step <%= step["number"] %>:</strong> <%= step["step"] %></li>
+                  <li class="pb-2 list-unstyled"><strong>Step <%= step["number"] %>:</strong> <%= step["step"] %></li>
                 <% end %>
               <% end %>
             <% else %>
               <li>No instructions available.</li>
             <% end %>
           </ol>
-          <a href="<%= @recipe["sourceUrl"] %>" target="_blank"><strong>Full recipe details</strong></a>        </div>
+          <a href="<%= @recipe["sourceUrl"] %>" target="_blank"><strong>Full recipe details <i class="fa-solid fa-arrow-up-right-from-square"></i></strong></a>        
+          </div>
         </div>
       </div>
     </div>
