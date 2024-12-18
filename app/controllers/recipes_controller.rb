@@ -5,15 +5,17 @@ require "open-uri"
 class RecipesController < ApplicationController
   def index
     api_key = ENV['SPOONACULAR_ACCESS_TOKEN']
-
-    @ingredients = session[:detected_ingredients]
+  
+    @ingredients = params[:selected_ingredients]&.join(',') || session[:detected_ingredients]
+  
     if @ingredients.nil?
       flash[:error] = "No ingredients detected yet."
       redirect_to detect_ingredients_recipes_path
+      return
     end
-
+  
     url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=#{@ingredients}&number=10&ranking=1&apiKey=#{api_key}"
-
+  
     begin
       # Open the URL and parse the JSON response
       @posts = []
@@ -24,7 +26,6 @@ class RecipesController < ApplicationController
       @posts = []
       flash[:alert] = "Failed to fetch posts: #{e.message}"
     end
-
   end
 
   def show
