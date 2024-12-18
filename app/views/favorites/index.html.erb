@@ -1,27 +1,27 @@
 <div class="container mt-3">
-  <h2 class="text-center text-my-yellow mb-5">A collection of your most-loved recipes.</h2>
+  <h2 class="text-center text-my-yellow mb-5">Favorites</h2>
 
   <% if @favorites.any? %>
     <div class="row gy-4">
       <% @favorites.each do |favorite| %>
         <div class="col-12">
-          <div class="favoritecard border-0 shadow-lg rounded-lg" style="$background-color; position: relative;">
-            <%= button_to recipe_favorite_path(favorite.recipe, favorite), method: :delete, remote: true, class: "btn btn-link position-absolute top-0 start-0 text-danger p-2", style: "font-size: 2rem; z-index: 2;", data: { toggle_class: "text-secondary" } do %>
+          <div class="border-0 shadow-lg rounded-lg" style="$background-color; position: relative;">
+            <%= button_to recipe_favorite_path(favorite.recipe, favorite), method: :delete, remote: true, class: "btn btn-link position-absolute top-0 start-0 text-primary m-2", style: "font-size: 2rem; z-index: 2;", data: { toggle_class: "text-secondary" } do %>
               <i class="fas fa-heart"></i>
             <% end %>
 
             <a href="<%= recipe_path(favorite.recipe) %>" class="stretched-link text-decoration-none">
-              <div class="position-relative">
+              <div class="position-relative p-2 favorite-card rounded-top-4">
                 <% if favorite.recipe.image.present? %>
-                  <img src="<%= favorite.recipe.image %>" alt="<%= favorite.recipe.name %>" class="card-img-top rounded-top img-fluid" style="$border-radius-xxl;" />
+                  <img src="<%= favorite.recipe.image %>" alt="<%= favorite.recipe.name %>" class="card-img-top rounded-4 img-fluid object-fit-cover" style="max-height:25vh" />
                 <% else %>
-                  <img src="https://via.placeholder.com/400" alt="Recipe image" class="card-img-top rounded-top img-fluid" style="$border-radius-xxl;" />
+                  <img src="https://via.placeholder.com/400" alt="Recipe image" class="card-img-top rounded-4 img-fluid " style="max-height:30vh" />
                 <% end %>
               </div>
 
               <div class="card-body text-center bg-my-dark-blue text-white p-4" style="border-radius: 0 0 15px 15px;">
                 <h5 class="card-title text-my-yellow mb-3 d-flex justify-content-center align-items-center gap-2">
-                  <span><%= favorite.recipe.name %></span>
+                  <span class="text-start"><%= favorite.recipe.name %></span>
                   <span style="font-size: 0.8rem; display: flex; align-items: center; text-align: left;">
                   <% rating = favorite.recipe.rating.to_i %>
                   <% 5.times do |i| %>
