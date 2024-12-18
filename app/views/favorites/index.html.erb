@@ -1,4 +1,4 @@
-<div class="container mt-3">
+<div class="container mt-3 page-container">
   <h2 class="text-center text-my-yellow mb-5">Favorites</h2>
 
   <% if @favorites.any? %>
@@ -19,7 +19,7 @@
                 <% end %>
               </div>
 
-              <div class="card-body text-center bg-my-dark-blue text-white p-4" style="border-radius: 0 0 15px 15px;">
+              <div class="favorite-body text-center bg-my-dark-blue text-white p-4" style="border-radius: 0 0 15px 15px;">
                 <h5 class="card-title text-my-yellow mb-3 d-flex justify-content-center align-items-center gap-2">
                   <span class="text-start"><%= favorite.recipe.name %></span>
                   <span style="font-size: 0.8rem; display: flex; align-items: center; text-align: left;">
