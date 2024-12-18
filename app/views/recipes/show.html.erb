@@ -6,9 +6,7 @@
           <a href="javascript:history.back()" class="btn btn-link text-white position-absolute top-0 start-0 m-3">
             <i class="fas fa-arrow-left fa-2x"></i>
           </a>
-          <div class="position-absolute top-0 start-2 m-3 mt-5 text-white">
-            <h1><%= @recipe["title"] %></h1>
-          </div>
+
 
           <!-- Favorite Button -->
           <% saved_recipe = Recipe.find_by(id: @recipe["id"]) %>
@@ -31,7 +29,7 @@
 
           <!-- Recipe Image -->
           <% if @recipe["image"].present? %>
-            <img src="<%= @recipe["image"] %>" alt="<%= @recipe["title"] %>" class="w-100 h-100 object-fit-cover banner-image">
+            <img src="<%= @recipe["image"] %>" alt="<%= @recipe["title"] %>" class="banner-image">
           <% else %>
             <div class="bg-secondary w-100 h-100 banner-placeholder text-white text-center d-flex align-items-center justify-content-center">
               <p><em>No image available for this recipe.</em></p>
@@ -40,28 +38,48 @@
         </div>
 
         <!-- Ingredients and Instructions -->
-        <div class="card mt-6">
-          <h4>Ingredients:</h4>
+        <div class="recipe-card">
+            <div class="recipe-title">
+            <h1><%= @recipe["title"] %></h1>
+          </div>
+          <div class="d-flex justify-content-start mt-3">
+            <!-- Time -->
+            <div class="recipe-pill">
+              <span><i class="fa-solid fa-clock"></i></span>
+              <span><%= @recipe["readyInMinutes"] || "N/A" %> min</span>
+            </div>
+            <!-- Calories -->
+            <div class="recipe-pill">
+              <span><i class="fa-solid fa-fire"></i></i></span>
+              <span><%= @recipe["nutrition"]["nutrients"].find { |n| n["name"] == "Calories" }&.dig("amount") || "N/A" %> kcal</span>
+            </div>
+          </div>
+
+          <h4><strong>Ingredients:</strong></h4>
           <ul>
             <% if @recipe["extendedIngredients"].present? %>
               <% @recipe["extendedIngredients"].each do |ingredient| %>
-                <li><%= ingredient["original"] %></li>
+                <li class="pb-2 list-unstyled"><%= ingredient["original"] %></li>
               <% end %>
             <% else %>
               <li>No ingredients available.</li>
             <% end %>
           </ul>
 
-          <h4>Instructions:</h4>
+          <h4 class="mt-3"><strong>Recipe Preparation</strong></h4>
           <ol>
             <% if @recipe["analyzedInstructions"].present? %>
               <% @recipe["analyzedInstructions"].each do |instruction| %>
                 <% instruction["steps"].each do |step| %>
-                  <li><strong>Step <%= step["number"] %>:</strong> <%= step["step"] %></li>
+                  <li class="pb-2 list-unstyled"><strong>Step <%= step["number"] %>:</strong> <%= step["step"] %></li>
                 <% end %>
               <% end %>
+            <% else %>
+              <li>No instructions available.</li>
             <% end %>
           </ol>
+          <a href="<%= @recipe["sourceUrl"] %>" target="_blank"><strong>Full recipe details <i class="fa-solid fa-arrow-up-right-from-square"></i></strong></a>        
+          </div>
         </div>
       </div>
     </div>

@@ -1,29 +1,34 @@
-<div class="navbar-mobile fixed-bottom">
+<div class="navbar-mobile fixed-bottom bg-dark border-top custom-pill-top border-primary">
   <div class="navbar-mobile-container">
     <div class="navbar-mobile-icons">
+
+      <!-- Favorites Link -->
       <div class="mobile-nav-item">
-        <%= link_to favorites_path, class: "mobile-nav-link" do %>
+        <%= link_to favorites_path, class: "mobile-nav-link nav-link text-primary" do %>
           <i class="fa-solid fa-heart"></i>
         <% end %>
       </div>
 
+      <!-- Kitchen Link -->
       <div class="mobile-nav-item">
-        <%= link_to '/', class: "mobile-nav-link" do %>
+        <%= link_to '/', class: "mobile-nav-link nav-link text-primary" do %>
           <i class="fa-solid fa-kitchen-set"></i>
         <% end %>
       </div>
 
+      <!-- User Profile or Sign In Link -->
       <div class="mobile-nav-item">
         <% if user_signed_in? %>
-          <%= link_to user_path(current_user), class: "mobile-nav-link" do %>
+          <%= link_to user_path(current_user), class: "mobile-nav-link nav-link text-primary" do %>
             <i class="fa-solid fa-user"></i>
           <% end %>
         <% else %>
-          <%= link_to new_user_session_path, class: "mobile-nav-link" do %>
+          <%= link_to new_user_session_path, class: "mobile-nav-link nav-link text-primary" do %>
             <i class="fa-solid fa-user"></i>
           <% end %>
         <% end %>
       </div>
+
     </div>
   </div>
 </div>

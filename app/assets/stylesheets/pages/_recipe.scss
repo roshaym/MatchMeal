@@ -1,87 +1,39 @@
 /* Full-page banner */
 .banner {
-    height: 40vh; /* Full viewport height */
-    position: relative;
-    overflow: hidden; /* Ensure content doesn't overflow */
-  }
-  
-  /* Banner image */
-  .banner-image {
-    object-fit: cover;
-    height: 100%;
-    width: 100%
-  }
-  
-  /* Placeholder for missing image */
-  .banner-placeholder {
-    height: 100vh; /* Full viewport height */
-    font-size: 1.5rem;
-  }
-  
-  .card{
-    height: 60vh; /* Full viewport height */
-    position: relative;
-  }
-  
-  .card{
-    height: 60vh; /* Full viewport height */
-    position: relative;
-  }
-  
-  .card-description {
-    object-fit: cover;
-    height: 100%;
-    width: 100%
-  }
-  
-  
-  .transparent-card p {
-    font-size: 1.1rem;
-    color: #f8f6f6;
-    line-height: 1.6;
-    margin-bottom: 15px;
-  }
-  
-  
-  .transparent-card h5 {
-    font-size: 1.4rem;
-    color: #f5b800;
-    margin-bottom: 10px;
-    font-weight: 600;
-  }
-  
-  
-  .transparent-card ul {
-    list-style-type: none;
-    padding-left: 0;
-    display: inline-block;
-    text-align: left;
-  }
-  
-  .transparent-card ul li {
-    font-size: 1rem;
-    padding-left: 25px;
-    position: relative;
-    margin-bottom: 8px;
-    color: #f7f4f4;
-  }
-  
-  .transparent-card ul li i {
-    position: absolute;
-    left: 0;
-    top: 0;
-    color: #f5b800;
-    font-size: 1.2rem;
-  }
-  
-  .transparent-card p strong {
-    color: #f5b800;
-    font-weight: 600;
-  }
-  
-  .transparent-card p {
-    font-size: 1rem;
-    color: #f9f7f7;
-    margin-bottom: 12px;
-  }
-    
+  height: 35vh; /* Full viewport height */
+  position: relative;
+  overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+/* Banner image */
+.banner-image {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 30px;
+}
+
+/* Placeholder for missing image */
+.banner-placeholder {
+  height: 100vh; /* Full viewport height */
+  font-size: 1.5rem;
+}
+
+/* Recipe card */
+.recipe-card {
+  margin-top: -60px; /* Adjust the value as needed to control the overlap */
+  padding-top: 70px; /* Adds padding at the top to avoid text being hidden */
+  z-index: 1;  background-color: $medium-gray;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  color: $black;
+  padding: 15px;
+  display: flex; /* Flexbox to arrange inner content */
+  flex-direction: column; /* Stack content vertically */
+  // margin-top: auto; /* Push the card to the bottom of the parent container */
+  opacity: .85;
+}
+
+.d-flex {
+  gap: 15px;  /* Adjust the value to control the space between the items */
+}
