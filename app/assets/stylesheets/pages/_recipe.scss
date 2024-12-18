@@ -1,6 +1,6 @@
 /* Full-page banner */
 .banner {
-  height: 45vh; /* Full viewport height */
+  height: 35vh; /* Full viewport height */
   position: relative;
   overflow: hidden; /* Ensure content doesn't overflow */
 }
@@ -21,19 +21,34 @@
 
 /* Recipe card */
 .recipe-card {
-  // height: 60vh; /* Fixed height */
-  background-color: $medium-gray;
+  margin-top: -60px; /* Adjust the value as needed to control the overlap */
+  padding-top: 70px; /* Adds padding at the top to avoid text being hidden */
+  z-index: 1;  background-color: $medium-gray;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   color: $black;
   padding: 15px;
   display: flex; /* Flexbox to arrange inner content */
   flex-direction: column; /* Stack content vertically */
-  margin-top: auto; /* Push the card to the bottom of the parent container */
+  // margin-top: auto; /* Push the card to the bottom of the parent container */
   opacity: .85;
+}
+
+.d-flex {
+  gap: 15px;  /* Adjust the value to control the space between the items */
 }
 
 .row {
   margin: 0; /* Reset margins for proper alignment */
   padding: 0; /* Reset paddings */
+}
+
+ul, ol {
+  list-style-type: none;  /* Removes bullets and numbering */
+  // padding-left: 0;        /* Removes left padding */
+  margin: 0;              /* Removes any margin */
+}
+
+ul li, ol li {
+  padding-bottom: 10px;  /* Adds space inside each list item */
 }

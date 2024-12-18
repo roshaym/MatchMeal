@@ -6,9 +6,7 @@
           <a href="javascript:history.back()" class="btn btn-link text-white position-absolute top-0 start-0 m-3">
             <i class="fas fa-arrow-left fa-2x"></i>
           </a>
-          <div class="recipe-title position-absolute bottom-0 start-0 m-3 text-white">
-            <h1><%= @recipe["title"] %></h1>
-          </div>
+
 
           <!-- Favorite Button -->
           <% saved_recipe = Recipe.find_by(id: @recipe["id"]) %>
@@ -41,7 +39,10 @@
 
         <!-- Ingredients and Instructions -->
         <div class="recipe-card">
-          <div class="d-flex justify-content-start gap-3 mt-3">
+            <div class="recipe-title">
+            <h1><%= @recipe["title"] %></h1>
+          </div>
+          <div class="d-flex justify-content-start mt-3">
             <!-- Time -->
             <div class="recipe-pill">
               <span><i class="fa-solid fa-clock"></i></span>
@@ -53,6 +54,7 @@
               <span><%= @recipe["nutrition"]["nutrients"].find { |n| n["name"] == "Calories" }&.dig("amount") || "N/A" %> kcal</span>
             </div>
           </div>
+
           <h4><strong>Ingredients:</strong></h4>
           <ul>
             <% if @recipe["extendedIngredients"].present? %>
@@ -64,7 +66,7 @@
             <% end %>
           </ul>
 
-          <h4><strong>Instructions:</strong></h4>
+          <h4 class="mt-3"><strong>Recipe Preparation</strong></h4>
           <ol>
             <% if @recipe["analyzedInstructions"].present? %>
               <% @recipe["analyzedInstructions"].each do |instruction| %>
@@ -76,8 +78,7 @@
               <li>No instructions available.</li>
             <% end %>
           </ol>
-          <h4>Full recipe details:</h4>
-          <a href="@recipe["sourceURL"]"></a>
+          <a href="<%= @recipe["sourceUrl"] %>" target="_blank"><strong>Full recipe details</strong></a>        </div>
         </div>
       </div>
     </div>
