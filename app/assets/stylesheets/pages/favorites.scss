@@ -1,0 +1,16 @@
+
+.favorite-card {
+  height: 50vh;
+  position: relative;
+  border-radius: $border-radius-xl;
+}
+
+
+.card-body {
+  background-color: $gray;
+  border-radius: 0 0 $border-radius-lg $border-radius-lg;
+}
+.text-warning {
+  color: yellow !important;
+}
+
