@@ -67,3 +67,62 @@ p {
   background-color: darken($my-yellow, 10%) !important; /* Darken on hover/focus */
   border-color: darken($my-yellow, 10%) !important;
 }
+
+
+.custom-pill-top {
+  border-top-left-radius: 50px; /* Makes the top-left corner rounded */
+  border-top-right-radius: 50px; /* Makes the top-right corner rounded */
+  border-bottom-left-radius: 0;  /* Keeps the bottom-left corner square */
+  border-bottom-right-radius: 0; /* Keeps the bottom-right corner square */
+}
+
+.navbar {
+  overflow-x: auto;  /* Allows horizontal scrolling if necessary */
+}
+
+.navbar {
+  position: fixed; /* Or sticky if that's your setup */
+  top: 0;  /* Ensures it sticks to the top */
+  width: 100%;  /* Make sure it spans the full width */
+  z-index: 9999; /* Ensures it's above other content */
+}
+
+
+/* Ensure navbar fills the full width of the screen */
+.navbar-mobile {
+  position: fixed;       /* Keep navbar fixed at the bottom */
+  bottom: 0;             /* Align it to the bottom of the screen */
+  left: 0;               /* Ensure it spans the entire width */
+  right: 0;              /* Ensure it spans the entire width */
+  width: 100%;           /* Make navbar fill the entire width */
+
+  /* Apply the rounded pill shape only at the top */
+  border-top-left-radius: 50px;   /* Round the top-left corner */
+  border-top-right-radius: 50px;  /* Round the top-right corner */
+  border-bottom-left-radius: 0;   /* Keep the bottom-left corner straight */
+  border-bottom-right-radius: 0;  /* Keep the bottom-right corner straight */
+
+  /* Remove any default margin or padding that might cause extra space */
+  margin: 0;
+  padding: 0;                /* Reset padding if there is unwanted space */
+
+  /* Set padding for content inside the navbar to make it taller */
+  padding-top: 15px;         /* Adjust to make the navbar bigger */
+  padding-bottom: 15px;      /* Adjust for bottom padding */
+}
+
+.navbar-mobile-container {
+  width: 100%;              /* Ensure the container takes the full width */
+}
+
+.navbar-mobile-icons {
+  width: 100%;              /* Ensure the icons span the full width */
+  display: flex;
+  justify-content: space-between; /* Or adjust this as per your layout */
+  align-items: center;           /* Ensure content is vertically centered */
+}
+
+/* Optional: Make the navbar bigger by adjusting font sizes or icon sizes */
+.navbar-mobile-icons i {
+  font-size: 2.5rem;           /* Adjust icon size for better visibility */
+}
