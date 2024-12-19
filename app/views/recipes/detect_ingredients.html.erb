@@ -45,7 +45,7 @@
 
           <div class="list-group mt-3">
             <% session[:detected_ingredients].split(',').each_with_index do |ingredient, index| %>
-              <div class="list-group-item d-flex align-items-center justify-content-between">
+              <div class="list-group-item py-3 px-3 rounded shadow-sm border d-flex align-items-center justify-content-between mb-2">
                 <label class="d-flex align-items-center flex-grow-1">
                   <%= check_box_tag 'selected_ingredients[]', ingredient.strip, true,
                         id: "ingredient_#{index}",
