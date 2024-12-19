@@ -1,0 +1,5 @@
+meta_product_name: "MatchMeal"
+meta_title: "MatchMeal - Make the most of what's in your kitchen"
+meta_description: "MatchMeal is here to help you discover recipes based on the ingredients you already have."
+meta_image: "cover.png" # should exist in `app/assets/images/`
+
