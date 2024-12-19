@@ -1,6 +1,7 @@
 
 .favorite-card {
   background-color: $medium-gray;  
+  margin-bottom: -1px;
 }
 
 
@@ -8,8 +9,3 @@
   background-color: $medium-gray;
   border-radius: 0 0 $border-radius-lg $border-radius-lg;
 }
-
-.text-warning {
-  color: yellow !important;
-}
-
