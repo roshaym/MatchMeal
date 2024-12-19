@@ -1,77 +1,82 @@
-<div class="container mt-5 page-container" data-controller="ingredient-detection">
-  <%= render 'shared/header', title: 'Detect Ingredients' %>
+<div class="container align-center page-container" data-controller="ingredient-detection">
+  <%= render 'shared/header', title: '' %>
 
-  <%= form_with(url: process_image_recipes_path, method: :post, multipart: true, class: "needs-validation") do |form| %>
-    <div class="form-group mb-4">
-      <%= form.label :image, "Upload or Take a Picture", class: "form-label" %>
-      <%= form.file_field :image,
-            accept: "image/*",
-            class: "form-control-file",
-            data: {
-              'ingredient-detection-target': 'imageUpload',
-              action: 'change->ingredient-detection#imageSelected'
-            } %>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <%= form.submit "Detect Ingredients",
-            class: 'btn btn-primary btn-lg rounded-pill shadow-sm mb-3',
-            data: {
-              'ingredient-detection-target': 'detectButton'
-            },
-            disabled: true %>
-    </div>
-  <% end %>
-
-  <% if session[:detected_ingredients].present? %>
-    <%= form_with(url: recipes_path, method: :get, local: true) do |form| %>
-      <div class="mt-5">
-        <h2 class="text-center">Detected Ingredients</h2>
-          <div class="d-flex align-items-center mb-3">
-          <input type="text"
-                 class="form-control me-2 form-control-lg"
-                 placeholder="Add an ingredient..."
-                 data-ingredient-detection-target="newIngredientInput">
-          <button type="button"
-                  class="btn btn-primary btn-lg rounded-pill shadow-sm"
-                  data-action="click->ingredient-detection#addIngredient">
-            <i class="fa-solid fa-plus"></i>
-          </button>
-        </div>
-
-        <div class="list-group mt-3">
-          <% session[:detected_ingredients].split(',').each_with_index do |ingredient, index| %>
-            <div class="list-group-item py-3 px-3 rounded shadow-sm border d-flex align-items-center justify-content-between mb-2">
-              <label class="d-flex align-items-center flex-grow-1">
-                <%= check_box_tag 'selected_ingredients[]', ingredient.strip, true,
-                      id: "ingredient_#{index}",
-                      class: "form-check-input me-3",
-                      data: {
-                        'ingredient-detection-target': 'ingredientCheckbox'
-                      } %>
-                <span class="text-capitalize fs-5 fw-bold">
-                  <%= ingredient.strip %>
-                </span>
-              </label>
-              <button type="button"
-                      class="btn btn-outline-danger btn-sm rounded-circle shadow-sm"
-                      data-action="click->ingredient-detection#removeIngredient"
-                      data-ingredient="<%= ingredient.strip %>"
-                      data-index="<%= index %>">
-                <i class="fa-regular fa-trash-can fa-xs"></i>
-              </button>
-            </div>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-center my-4">
-        <%= form.submit "Generate Recipes",
-              class: "btn btn-primary btn-lg rounded-pill shadow-sm mb-3",
+  <div class="mt-4">
+    <%= form_with(url: process_image_recipes_path, method: :post, multipart: true, class: "needs-validation") do |form| %>
+      <div class="form-group mb-4 text-center">
+        <label for="image-upload" class="btn btn-primary btn-lg rounded-pill shadow-sm mb-3">
+          <i class="fa-solid fa-plus"></i> Take a pic or upload an image
+        </label>
+        <%= form.file_field :image,
+              id: "image-upload",
+              accept: "image/*",
+              class: "d-none",
               data: {
-                'ingredient-detection-target': 'generateButton'
+                'ingredient-detection-target': 'imageUpload',
+                action: 'change->ingredient-detection#imageSelected'
               } %>
       </div>
+
+      <div class="d-flex justify-content-center">
+        <%= form.submit "Find my ingredients",
+              class: 'btn btn-primary btn-lg rounded-pill shadow-sm mb-3',
+              data: {
+                'ingredient-detection-target': 'detectButton'
+              },
+              disabled: true %>
+      </div>
     <% end %>
-  <% end %>
+
+    <% if session[:detected_ingredients].present? %>
+      <%= form_with(url: recipes_path, method: :get, local: true) do |form| %>
+        <div class="mt-5">
+          <h2 class="text-center">Voila!</h2>
+            <div class="d-flex align-items-center mb-3">
+            <input type="text"
+                  class="form-control me-2 form-control-lg"
+                  placeholder="Add an ingredient..."
+                  data-ingredient-detection-target="newIngredientInput">
+            <button type="button"
+                    class="btn btn-primary btn-lg rounded-pill shadow-sm"
+                    data-action="click->ingredient-detection#addIngredient">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+
+          <div class="list-group mt-3">
+            <% session[:detected_ingredients].split(',').each_with_index do |ingredient, index| %>
+              <div class="list-group-item py-3 px-3 rounded shadow-sm border d-flex align-items-center justify-content-between mb-2">
+                <label class="d-flex align-items-center flex-grow-1">
+                  <%= check_box_tag 'selected_ingredients[]', ingredient.strip, true,
+                        id: "ingredient_#{index}",
+                        class: "form-check-input me-3",
+                        data: {
+                          'ingredient-detection-target': 'ingredientCheckbox'
+                        } %>
+                  <span class="text-capitalize fs-5 fw-bold">
+                    <%= ingredient.strip %>
+                  </span>
+                </label>
+                <button type="button"
+                        class="btn btn-outline-danger btn-sm rounded-pill shadow-sm"
+                        data-action="click->ingredient-detection#removeIngredient"
+                        data-ingredient="<%= ingredient.strip %>"
+                        data-index="<%= index %>">
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center my-4">
+          <button type="submit"
+                  class="btn btn-primary btn-lg rounded-pill shadow-sm mb-3"
+                  data-ingredient-detection-target="generateButton"
+                  disabled>
+            <%# <i class="fa-solid fa-utensils"></i> Show recipes %>
+            <i class="fa-solid fa-bars"></i> Show recipes
+          </button>
+        </div>
+      <% end %>
+    <% end %>
 </div>
