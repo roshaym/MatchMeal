@@ -4,8 +4,7 @@
   <div class="container py-4" data-controller="profile">
     <%= render 'shared/header', title: 'Edit Profile' %>
     <!-- Profile Card for Edit Form -->
-    <div class="card mt-2">
-      <div class="card-body">
+    <div class="mt-2">
         <!-- Profile Picture and Username Section -->
         <div class="d-flex flex-column align-items-center mb-1">
           <!-- Check if user has a profile picture -->
@@ -84,7 +83,6 @@
          <%= form.submit 'Update Profile', class: 'btn btn-primary btn-lg rounded-pill shadow-sm w-100 mb-5' %>
         </div>
         <% end %>
-      </div>
     </div>
   </div>
 <% else %>
