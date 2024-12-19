@@ -2,14 +2,14 @@
   <!-- Turbo Stream to listen for updates to the user's profile -->
   <%= turbo_stream_from "profile_#{@user.id}" %>
 
-  <div class="container bg-black my-4">
+  <div class="container my-4">
     <h1 class="text-white">Profile</h1>
     <!-- Profile Card -->
-    <div class="card mt-4 mb-4" style="min-height: 500px;"> <!-- Set min-height for consistency -->
-      <div class="card-body d-flex flex-column justify-content-between">
+    <div class="mt-4 mb-4" style="min-height: 500px;"> <!-- Set min-height for consistency -->
+      <div class="d-flex flex-column justify-content-between">
         <div class="d-flex flex-column align-items-center mb-4">
           <!-- Check if user has a profile picture -->
-          <div class="profile-pic-container mb-3">
+          <div class="mb-3">
             <% if @user.profile_picture.attached? %>
               <%= image_tag @user.profile_picture.url, alt: "Profile Picture", class: "rounded-circle profile-pic", width: "200", height: "200" %>
             <% else %>
