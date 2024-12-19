@@ -6,7 +6,7 @@
       <% @favorites.each do |favorite| %>
         <div class="col-12">
           <div class="border-0 shadow-lg rounded-lg" style="$background-color; position: relative;">
-            <%= button_to recipe_favorite_path(favorite.recipe, favorite), method: :delete, remote: true, class: "btn btn-link position-absolute top-0 start-0 text-primary m-2", style: "font-size: 2rem; z-index: 2;", data: { toggle_class: "text-secondary" } do %>
+            <%= button_to recipe_favorite_path(favorite.recipe, favorite), method: :delete, remote: true, class: "btn btn-link position-absolute top-0 end-0 text-primary m-2", style: "font-size: 2rem; z-index: 2;", data: { toggle_class: "text-secondary" } do %>
               <i class="fas fa-heart"></i>
             <% end %>
 

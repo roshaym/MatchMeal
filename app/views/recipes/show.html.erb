@@ -1,11 +1,12 @@
 <div class="container mt-5 page-container">
+<%= render 'shared/header', title: nil %>
   <div class="row">
     <div class="col-md-6">
       <div class="container-fluid p-0">
         <div class="banner position-relative">
-          <a href="javascript:history.back()" class="btn btn-link text-white position-absolute top-0 start-0 m-3">
+          <%# <a href="javascript:history.back()" class="btn btn-link text-white position-absolute top-0 start-0 m-3">
             <i class="fas fa-arrow-left fa-2x"></i>
-          </a>
+          </a> %>
 
 
           <!-- Favorite Button -->
@@ -15,7 +16,7 @@
             <%= button_to recipe_favorite_path(saved_recipe.id, current_user.favorites.find_by(recipe_id: saved_recipe.id)),
                           method: :delete,
                           class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
-              <i class="fas fa-heart text-white fa-2x"></i>
+              <i class="fas fa-heart text-primary fa-2x"></i>
             <% end %>
           <% else %>
             <!-- Favorite Button -->
@@ -23,7 +24,7 @@
                           method: :post,
                           params: { recipe_id: @recipe["id"] },
                           class: "btn btn-link position-absolute top-0 end-0 m-3" do %>
-              <i class="far fa-heart text-white fa-2x"></i>
+              <i class="far fa-heart text-primary fa-2x"></i>
             <% end %>
           <% end %>
 
@@ -51,8 +52,10 @@
             <!-- Calories -->
             <div class="recipe-pill">
               <span><i class="fa-solid fa-fire"></i></i></span>
-              <span><%= @recipe["nutrition"]["nutrients"].find { |n| n["name"] == "Calories" }&.dig("amount") || "N/A" %> kcal</span>
-            </div>
+              <span>
+                <%= (@recipe["nutrition"]["nutrients"].find { |n| n["name"] == "Calories" }&.dig("amount")&.to_f || 0).round %> kcal
+              </span>
+                          </div>
           </div>
 
           <h4><strong>Ingredients:</strong></h4>
@@ -78,7 +81,7 @@
               <li>No instructions available.</li>
             <% end %>
           </ol>
-          <a href="<%= @recipe["sourceUrl"] %>" target="_blank"><strong>Full recipe details <i class="fa-solid fa-arrow-up-right-from-square"></i></strong></a>        
+          <a href="<%= @recipe["sourceUrl"] %>" target="_blank"><strong>Full recipe details <i class="fa-solid fa-arrow-up-right-from-square"></i></strong></a>
           </div>
         </div>
       </div>
